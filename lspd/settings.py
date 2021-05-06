@@ -25,7 +25,7 @@ SECRET_KEY = '8amp^g7q@o)mrd=wc)i#_$h+$#ot5vv$y(o9@)gao$50c-6uxc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['kubala.pythonanywhere.com']
 
 
 # Application definition
