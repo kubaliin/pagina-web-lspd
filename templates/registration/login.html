@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<!-- templates/registration/login.html -->
+
+{% block content %}
 
 {% load static %}
 
@@ -38,6 +40,7 @@
 			<div style="background-image: url({% static 'assets/img/wallpaper.png' %});" class="container-login100">
 				<div class="wrap-login100">
 					<form class="login100-form validate-form" method="POST" action="" name="signin-form">
+						{% csrf_token %}
 						<span class="login100-form-title p-b-26">
 							Bienvenido
 						</span>
@@ -67,7 +70,7 @@
 						<div class="container-login100-form-btn">
 							<div class="wrap-login100-form-btn">
 								<div class="login100-form-bgbtn"></div>
-								<button class="login100-form-btn" type="submit" name="login" value="login">
+								<button class="login100-form-btn" type="submit">
 									Entrar
 								</button>
 							</div>
@@ -110,3 +113,6 @@
 
 	</body>
 </html>
+
+{% endblock %}
+

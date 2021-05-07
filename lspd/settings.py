@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'lspd.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kubala.mysql.pythonanywhere-services.com',
-        'USER': 'kubala',
-        'PASSWORD': 'Carlos123456?',
+        'NAME': 'lspd',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     },
@@ -136,3 +136,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/'

@@ -1,13 +1,9 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.contrib.auth import authenticate
+from django.shortcuts import render, redirect
 
-
-# Create your views here.
 
 def index(request):
-    print(request.POST)
-    if request.POST:
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-    return render(request, 'login.html')
+    if request.user.is_authenticated:
+        return redirect('../admin/')
+    else:
+        return redirect('../accounts/login/')
