@@ -12,32 +12,32 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+		<link rel="shortcut icon" href="#">
 
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/vendor/bootstrap/css/bootstrap.min.css' %}">
 
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
 
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/fonts/iconic/css/material-design-iconic-font.min.css' %}">
 
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/animate/animate.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/vendor/animate/animate.css' %}">
 
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/css-hamburgers/hamburgers.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/vendor/css-hamburgers/hamburgers.min.css' %}">
 
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/animsition/css/animsition.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/vendor/animsition/css/animsition.min.css' %}">
 
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/select2/select2.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/vendor/select2/select2.min.css' %}">
 
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/daterangepicker/daterangepicker.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/vendor/daterangepicker/daterangepicker.css' %}">
 
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/util.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/css/util.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets_login/css/main.css' %}">
 
 	</head>
 	<body>
 
 		<div class="limiter">
-			<div style="background-image: url({% static 'assets/img/wallpaper.png' %});" class="container-login100">
+			<div style="background-image: url({% static 'assets_login/img/wallpaper.png' %});" class="container-login100">
 				<div class="wrap-login100">
 					<form class="login100-form validate-form" method="POST" action="" name="signin-form">
 						{% csrf_token %}
@@ -45,7 +45,7 @@
 							Bienvenido
 						</span>
 						<span class="login100-form-title p-b-30">
-							<img src="{% static 'assets/img/lspd-logo.png' %}" height="250" width="250">
+							<img src="{% static 'assets_login/img/lspd-logo.png' %}" height="250" width="250">
 						</span>
 
 						<div class="text-center p-t-1" id="error" style="visibility: hidden; margin-bottom: 20px;">
@@ -95,21 +95,21 @@
 
 		<div id="dropDownSelect1"></div>
 
-		<script src="{% static 'assets/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+		<script src="{% static 'assets_login/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 
-		<script src="{% static 'assets/vendor/animsition/js/animsition.min.js' %}"></script>
+		<script src="{% static 'assets_login/vendor/animsition/js/animsition.min.js' %}"></script>
 
-		<script src="{% static 'assets/vendor/bootstrap/js/popper.js' %}"></script>
-		<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'assets_login/vendor/bootstrap/js/popper.js' %}"></script>
+		<script src="{% static 'assets_login/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
 
-		<script src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+		<script src="{% static 'assets_login/vendor/select2/select2.min.js' %}"></script>
 
-		<script src="{% static 'assets/vendor/daterangepicker/moment.min.js' %}"></script>
-		<script src="{% static 'assets/vendor/daterangepicker/daterangepicker.js' %}"></script>
+		<script src="{% static 'assets_login/vendor/daterangepicker/moment.min.js' %}"></script>
+		<script src="{% static 'assets_login/vendor/daterangepicker/daterangepicker.js' %}"></script>
 
-		<script src="{% static 'assets/vendor/countdowntime/countdowntime.js' %}"></script>
+		<script src="{% static 'assets_login/vendor/countdowntime/countdowntime.js' %}"></script>
 
-		<script src="{% static 'assets/js/main.js' %}"></script>
+		<script src="{% static 'assets_login/js/main.js' %}"></script>
 
 	</body>
 </html>

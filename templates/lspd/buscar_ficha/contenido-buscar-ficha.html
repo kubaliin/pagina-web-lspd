@@ -1,0 +1,58 @@
+{% load static %}
+
+<body style="background-color: #1B47DF;">
+  <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+    </div>
+    <ul class="list-unstyled components mb-5">
+      <li>
+        <a href="#"><span class="fa fa-adn mr-3"></span> Adopciones</a>
+      </li>
+      <li class="active">
+          <a href="#"><span class="fa fa-user mr-3"></span> Buscar ficha</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-briefcase mr-3"></span> Empresas</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-search mr-3"></span> Investigación</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-money mr-3"></span> Multas y condenas</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-sticky-note-o mr-3"></span> Normativas</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-exclamation-triangle mr-3"></span> Procedimientos y protocolos</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-share mr-3"></span> Reinserción</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
+      </li>
+    </ul>
+
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="container" style="height: 90vh; text-align:center">
+      <div class="center_top">
+        <form method="post">
+            <label class="label"><b>Buscar ficha: </b></label>
+            <input type="text" name="search">
+            <input type="submit" name="buscar" value="buscar">
+        </form>
+      </div>
+      <div class="center_bottom">
+        <a href="{% url 'crear_ficha' %}"><button type="button">Crear nueva ficha policial</button></a>
+      </div>
+    </div>
+  </div>
+</body>

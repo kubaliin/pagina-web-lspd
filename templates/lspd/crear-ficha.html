@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/crear_ficha/head-crear-ficha.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/crear_ficha/contenido-crear-ficha.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/crear_ficha/scripts-crear-ficha.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

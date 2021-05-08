@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from web.views import index
+from web.views import Index, BuscarFicha, CrearFicha
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', index, name='index'),
+    path('', Index, name='index'),
+    path('buscar-ficha/', BuscarFicha, name='buscar_ficha'),
+    path('crear-ficha/', CrearFicha, name='crear_ficha'),
 ]
