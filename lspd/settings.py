@@ -118,6 +118,8 @@ STATICFILES_DIRS = [
     '/var/www/static/',
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

@@ -1,3 +1,6 @@
+import datetime
+
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 
 from web.forms import CrearFichaForm
@@ -23,19 +26,30 @@ def CrearFicha(request):
         form = CrearFichaForm(request.POST)
 
         if request.method == 'POST':
-            print('post valido')
+            filepath = request.FILES['myfile'] if 'myfile' in request.FILES else False
+            newfilename = ''
+
+            if filepath:
+                myfile = request.FILES['myfile']
+                fs = FileSystemStorage()
+                newfilename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + '_' + myfile.name
+                fs.save(newfilename, myfile)
+
             if form.is_valid():
-                print('form valido')
                 obj_p = Policia.objects.get(users_id=request.user.id)
 
                 obj_c = Ciudadanos()
                 obj_c.nombre = form.cleaned_data['nombre']
                 obj_c.apellido = form.cleaned_data['apellido']
                 obj_c.telefono = form.cleaned_data['telefono']
+                if filepath:
+                    obj_c.imagen = newfilename
                 obj_c.creado_por = obj_p.id
                 obj_c.save()
 
-                return render(request, 'lspd/buscar-ficha.html')
+                successful_submit = True
+
+                return render(request, 'lspd/crear-ficha.html', {'successful_submit': successful_submit})
 
             return render(request, 'lspd/crear-ficha.html', {'form': form.errors})
 

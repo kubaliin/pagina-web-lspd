@@ -10,3 +10,11 @@
   <script src="{% static 'assets/plugins/global/plugins.bundle.js' %}"></script>
   <script src="{% static 'assets/plugins/custom/prismjs/prismjs.bundle.js' %}"></script>
   <script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
+
+  {% if successful_submit %}
+    <script type="text/javascript">
+        $(window).ready(function(){
+            $("#staticBackdrop").modal('show');
+        });
+    </script>
+  {% endif %}

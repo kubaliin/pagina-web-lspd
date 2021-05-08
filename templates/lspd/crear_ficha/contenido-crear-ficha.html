@@ -42,15 +42,11 @@
 
         <!-- Page Content  -->
         <div id="content" class="container" style="height: 100vh;">
-          <form method="POST" id="crearFicha">
+          <form method="POST" id="crearFicha" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="card-body">
-              <div class="form-group">
-
-                  Select image to upload:
-                  <input type="file" name="fileToUpload" id="fileToUpload">
-                  <input type="submit" value="Upload Image" name="submit">
-
+              <div class="form-group" style="text-align: center; margin-top: 50px;">
+                <input type="file" name="myfile">
               </div>
               <div class="form-group">
                 <label style="font-size: 16px;"><b>Nombre </b><span class="text-danger">*</span></label>
@@ -73,4 +69,24 @@
         </div>
       </div>
 
+      <!-- Modal-->
+      <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Datos guardados</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <i aria-hidden="true" class="ki ki-close"></i>
+                      </button>
+                  </div>
+                  <div class="modal-body" style="font-size: 16px;">
+                      Ficha creada correctamente.
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Crear otra ficha</button>
+                      <button type="button" class="btn btn-primary font-weight-bold" ><a href="{% url 'buscar_ficha' %}" style="color:white;">Salir</a></button>
+                  </div>
+              </div>
+          </div>
+      </div>
     </body>
