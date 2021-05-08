@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/zonas/head-zonas.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/zonas/contenido-zonas.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/zonas/scripts-zonas.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

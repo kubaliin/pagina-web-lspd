@@ -62,3 +62,8 @@ class CiudadanosDatos(generics.ListAPIView):
         datos = ciudadanos_filtrado_nombre_completo(request.GET['nombre'])
 
         return JsonResponse(datos, safe=False)
+
+
+@login_required
+def ZonasPatrullaje(request):
+    return render(request, 'lspd/zonas-patrullaje.html')

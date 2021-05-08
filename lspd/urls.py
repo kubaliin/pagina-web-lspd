@@ -19,7 +19,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path, include
 
 from lspd import settings
-from web.views import Index, BuscarFicha, CrearFicha, CiudadanosDatos
+from web.views import Index, BuscarFicha, CrearFicha, CiudadanosDatos, ZonasPatrullaje
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('buscar-ficha/', BuscarFicha, name='buscar_ficha'),
     path('buscar-ficha/ciudadanos/', login_required(CiudadanosDatos.as_view()), name='ciudadanos_datos'),
     path('crear-ficha/', CrearFicha, name='crear_ficha'),
+    path('zonas-patrullaje/', ZonasPatrullaje, name='zonas_patrullaje'),
 ]
 
 if settings.DEBUG:
