@@ -1,0 +1,98 @@
+'use strict';
+// Class definition
+
+var KTDatatableChildRemoteDataDemo = function() {
+	// Private functions
+
+	// demo initializer
+	var demo = function() {
+
+		var datatable = $('#kt_datatable').KTDatatable({
+			// datasource definition
+			data: {
+				type: 'remote',
+				source: {
+					read: {
+						url: 'http://127.0.0.1:8000' + '/buscar-ficha/ciudadanos/?nombre=',
+						method: 'GET',
+						headers: {'X-CSRFToken': '{{ csrf_token }}'},
+					},
+				},
+				pageSize: 5, // display 20 records per page
+				serverPaging: true,
+				serverFiltering: false,
+				serverSorting: true,
+			},
+
+			// layout definition
+			layout: {
+				scroll: true,
+				footer: false,
+			},
+
+			// column sorting
+			sortable: false,
+
+			pagination: true,
+
+			search: {
+				input: $('#kt_datatable_search_query'),
+				key: 'generalSearch'
+			},
+
+			// columns definition
+			columns: [
+				{
+					field: 'nombre_completo',
+					title: 'nombre completo',
+					sortable: 'asc',
+					template: function(row) {
+						return row['nombre_completo'];
+					},
+				},
+				{
+					field: 'telefono',
+					title: 'teléfono',
+					template: function(row) {
+					    if (row['telefono'] == undefined) {
+					        return 'Sin registro';
+					    } else {
+					        return row['telefono'];
+					    }
+					},
+				},
+				{
+					field: 'Última detención',
+					title: 'última detención',
+				},
+				{
+					field: 'Policia',
+					title: 'policia',
+				},
+				],
+		});
+
+		$('#kt_datatable_search_status').on('change', function() {
+			datatable.search($(this).val().toLowerCase(), 'Status');
+		});
+
+		$('#kt_datatable_search_type').on('change', function() {
+			datatable.search($(this).val().toLowerCase(), 'Type');
+		});
+
+		$('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
+
+	};
+
+	return {
+		// Public functions
+		init: function() {
+			// init dmeo
+			demo();
+		},
+	};
+}();
+
+jQuery(document).ready(function() {
+	KTDatatableChildRemoteDataDemo.init();
+});

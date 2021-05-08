@@ -15,16 +15,18 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.urls import path, include
 
 from lspd import settings
-from web.views import Index, BuscarFicha, CrearFicha
+from web.views import Index, BuscarFicha, CrearFicha, CiudadanosDatos
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', Index, name='index'),
     path('buscar-ficha/', BuscarFicha, name='buscar_ficha'),
+    path('buscar-ficha/ciudadanos/', login_required(CiudadanosDatos.as_view()), name='ciudadanos_datos'),
     path('crear-ficha/', CrearFicha, name='crear_ficha'),
 ]
 
