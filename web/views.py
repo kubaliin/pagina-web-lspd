@@ -7,7 +7,8 @@ from django.shortcuts import render, redirect
 from rest_framework import generics
 
 from web.forms import CrearFichaForm
-from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file
+from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
+    tipos_multas, multas
 from web.models import Ciudadanos, Policia
 
 
@@ -110,7 +111,25 @@ class CiudadanoDetenciones(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         datos = ciudadanos_filtrado_detenciones(request.GET['id'])
 
-        print(datos)
+        return JsonResponse(datos, safe=False)
+
+
+@login_required
+def CrearDetencion(request):
+    tiposCargos = tipos_multas()
+    cargos = multas()
+
+    return render(request, 'lspd/crear-detencion.html', {'tipos_cargos': tiposCargos, 'cargos': cargos})
+
+
+class CiudadanoMultas(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        filtrar_id = request.GET['filtrar_id']
+
+        if filtrar_id == 'True':
+            datos = multas(request.GET['id_cargos'], False, True)
+        else:
+            datos = multas(request.GET['id_cargos'], True)
 
         return JsonResponse(datos, safe=False)
 

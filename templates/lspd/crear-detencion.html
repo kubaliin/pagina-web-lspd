@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/ciudadano/detencion/head-crear-detencion.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/ciudadano/detencion/contenido-crear-detencion.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/ciudadano/detencion/scripts-crear-detencion.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

@@ -79,3 +79,61 @@ def ciudadanos_filtrado_detenciones(filtros=""):
 def _delete_file(path):
     if os.path.isfile(settings.MEDIA_ROOT + path):
         os.remove(os.path.join(settings.MEDIA_ROOT, path))
+
+
+def tipos_multas():
+    tiposMultasQuery = """
+    SELECT
+        tipos_multas.id,
+        tipos_multas.descripcion
+    FROM
+        tipos_multas
+    """
+
+    cursor = connection.cursor()
+
+    cursor.execute(tiposMultasQuery)
+    datos = cursor.fetchall()
+    datosClaves = [column[0] for column in cursor.description]
+    datosLista = []
+
+    for data in datos:
+        datosLista.append(dict(zip(datosClaves, data)))
+
+    cursor.close()
+
+    return datosLista
+
+
+def multas(filtros='', filtrarTipoMultas = False, filtrarIdMultas = False):
+    multasQuery = """
+    SELECT
+        multas.id,
+        multas.descripcion,
+        multas.articulo,
+        multas.tiempo,
+        multas.dinero
+    FROM
+        multas
+    """
+
+    if filtrarTipoMultas:
+        multasQuery = multasQuery + """WHERE multas.tipo_multas_id LIKE '%""" + filtros + """%'"""
+
+    if filtrarIdMultas:
+        multasQuery = multasQuery + """WHERE multas.id LIKE '""" + filtros + """'"""
+
+    cursor = connection.cursor()
+
+    cursor.execute(multasQuery)
+    datos = cursor.fetchall()
+    datosClaves = [column[0] for column in cursor.description]
+    datosLista = []
+
+    for data in datos:
+        datosLista.append(dict(zip(datosClaves, data)))
+
+    cursor.close()
+
+    return datosLista
+
