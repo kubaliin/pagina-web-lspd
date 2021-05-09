@@ -2,42 +2,43 @@
 
 <body style="background-color: #4F6EDA;">
   <div class="wrapper d-flex align-items-stretch">
-        <nav id="sidebar">
-            <div class="custom-menu">
-                <button type="button" id="sidebarCollapse" class="btn btn-primary">
-          <i class="fa fa-bars"></i>
-          <span class="sr-only">Toggle Menu</span>
-        </button>
-    </div>
-    <ul class="list-unstyled components mb-5">
-      <li>
-        <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
-      </li>
-      <li class="active">
-          <a href="{% url 'buscar_ficha' %}"><span class="fa fa-user mr-3"></span> Buscar ficha</a>
-      </li>
-      <li>
-        <a href="#"><span class="fa fa-briefcase mr-3"></span> Empresas</a>
-      </li>
-      <li>
-        <a href="#"><span class="fa fa-search mr-3"></span> Investigación</a>
-      </li>
-      <li>
-        <a href="#"><span class="fa fa-money mr-3"></span> Multas y condenas</a>
-      </li>
-      <li>
-        <a href="#"><span class="flaticon2-checking mr-3"></span> Normativas</a>
-      </li>
-      <li>
-        <a href="#"><span class="fa fa-exclamation-triangle mr-3"></span> Procedimientos y protocolos</a>
-      </li>
-      <li>
-        <a href="#"><span class="fa fa-share mr-3"></span> Reinserción</a>
-      </li>
-      <li>
-        <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
-      </li>
-    </ul>
+
+    <nav id="sidebar">
+        <div class="custom-menu">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Menu</span>
+            </button>
+        </div>
+        <ul class="list-unstyled components mb-5" style="position: fixed; max-width: 250px;">
+          <li>
+            <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
+          </li>
+          <li class="active">
+              <a href="{% url 'buscar_ficha' %}"><span class="fa fa-user mr-3"></span> Buscar ficha</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-briefcase mr-3"></span> Empresas</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-search mr-3"></span> Investigación</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-money mr-3"></span> Multas y condenas</a>
+          </li>
+          <li>
+            <a href="#"><span class="flaticon2-checking mr-3"></span> Normativas</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-exclamation-triangle mr-3"></span> Procedimientos y protocolos</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-share mr-3"></span> Reinserción</a>
+          </li>
+          <li>
+            <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
+          </li>
+        </ul>
 
     </nav>
 

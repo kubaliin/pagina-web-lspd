@@ -22,6 +22,7 @@ class Ciudadanos(models.Model):
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     nombre_completo = models.CharField(max_length=100)
+    fecha_nacimiento = models.DateField(null=True)
     telefono = models.IntegerField(null=True)
     imagen = models.CharField(max_length=250, null=True)
     creado_por = models.IntegerField()

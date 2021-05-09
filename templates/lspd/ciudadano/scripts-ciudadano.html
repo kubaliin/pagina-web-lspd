@@ -14,10 +14,18 @@
     <script src="{% static 'assets/plugins/custom/prismjs/prismjs.bundle.js' %}"></script>
     <script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
 
+    <script>
+        var id = {{ id }}
+    </script>
+
     <!--Empieza cosas tabla-->
     <script src="{% static 'assets/js/pages/widgets.js' %}"></script>
     <script src="{% static 'assets/js/pages/features/miscellaneous/sweetalert2.js' %}"></script>
-    <script src="{% static 'assets/js/pages/crud/ktdatatable/buscar-ficha/buscar-ficha-data-ajax.js' %}"></script>
+    <script src="{% static 'assets/js/pages/crud/ktdatatable/ciudadano/detenciones-data-ajax.js' %}"></script>
     <!--Fin cosas tabla-->
 
-    <script src="{% static 'assets/js/custom/buscar-ficha.js' %}"></script>
+    <!--Empieza avatar-->
+    <script src="{% static 'assets/js/pages/crud/file-upload/image-input.js' %}"></script>
+    <!--Fin avatar-->
+
+    <script src="{% static 'assets/js/custom/ciudadano.js' %}"></script>

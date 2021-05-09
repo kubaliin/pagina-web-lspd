@@ -47721,10 +47721,16 @@ code {
       overflow: hidden;
       opacity: 0; }
   .image-input [data-action="cancel"],
-  .image-input [data-action="remove"] {
+  .image-input [data-action="remove"],
+  .image-input [data-action="save"] {
     position: absolute;
     right: -10px;
     bottom: -5px; }
+    .image-input [data-action="save"] input {
+      width: 0 !important;
+      height: 0 !important;
+      overflow: hidden;
+      opacity: 0; }
   .image-input [data-action="cancel"] {
     display: none; }
   .image-input.image-input-changed [data-action="cancel"] {

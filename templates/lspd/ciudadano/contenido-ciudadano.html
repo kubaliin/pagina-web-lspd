@@ -1,0 +1,159 @@
+{% load static %}
+
+<body style="background-color: #4F6EDA;">
+  <div class="wrapper d-flex align-items-stretch">
+
+    <nav id="sidebar">
+        <div class="custom-menu">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Menu</span>
+            </button>
+        </div>
+        <ul class="list-unstyled components mb-5" style="position: fixed; max-width: 250px;">
+          <li>
+            <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
+          </li>
+          <li class="active">
+              <a href="{% url 'buscar_ficha' %}"><span class="fa fa-user mr-3"></span> Buscar ficha</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-briefcase mr-3"></span> Empresas</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-search mr-3"></span> Investigación</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-money mr-3"></span> Multas y condenas</a>
+          </li>
+          <li>
+            <a href="#"><span class="flaticon2-checking mr-3"></span> Normativas</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-exclamation-triangle mr-3"></span> Procedimientos y protocolos</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-share mr-3"></span> Reinserción</a>
+          </li>
+          <li>
+            <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
+          </li>
+        </ul>
+
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="container">
+
+    <!-- Inicio tabla  -->
+
+		<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+			<div class="d-flex flex-column-fluid">
+				<div class="container">
+					<div class="row">
+						<div class="col-xl-12" style="margin-top: 30px;">
+							<div class="row col-xl-12">
+								<div class="column">
+								{% if imagen %}
+								<div class="image-input image-input-empty image-input-outline" id="kt_image_1" style="background-image: url(../media/{{ nombre_imagen }})">
+								{% else %}
+								<div class="image-input image-input-empty image-input-outline" id="kt_image_1" style="background-image: url(../media/ciudadano/blank.jpg)">
+								{% endif %}
+									<div class="image-input-wrapper" style="width: 350px; height: 190px;"></div>
+									<form method="POST" id="ciudadano" enctype="multipart/form-data">
+									{% csrf_token %}
+										<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Cambiar imagen">
+											<i class="fa fa-pen icon-sm text-muted"></i>
+											<input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"/>
+										</label>
+										<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="save" data-toggle="tooltip" title="Cambiar">
+											<i class="flaticon-refresh" id="save" style="margin-left: 16px"></i>
+											<input type="submit" form="ciudadano"/>
+										</span>
+										<!--label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="save" data-toggle="tooltip" title="Cambiar">
+											<i class="flaticon-refresh"></i>
+											<input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"/>
+											<input type="hidden" name="profile_avatar_remove"/>
+										</label-->
+									</form>
+								</div>
+								</div>
+								<div class="column" style="width: 50%; margin-left: 20px; font-size: 20px;">
+									<b>Nombre: </b>{{ nombre_completo }}<br>
+									<b>Fecha de nacimiento: </b>{{ fecha_nacimiento }}<br>
+									<b>Teléfono: </b>{{ telefono }}
+								</div>
+							</div>
+
+							<div class="card card-custom gutter-b" >
+								<div class="card-header card-header-tabs-line">
+									<div class="card-title">
+										<h3 class="card-label">Expediente</h3><br><br>
+										<span class="d-block text-muted pt-2 font-size-sm">Información detallada</span></h3>
+									</div>
+									<div class="card-toolbar">
+										<ul class="nav nav-tabs nav-bold nav-tabs-line">
+											<li class="nav-item">
+												<a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_1" id="detenciones-nav">
+													<span class="nav-icon"><i class="flaticon-lock"></i></span>
+													<span class="nav-text">Detenciones</span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2" id="denuncias-nav">
+													<span class="nav-icon"><i class="flaticon2-safe"></i></span>
+													<span class="nav-text">Denuncias</span>
+												</a>
+											</li>
+                                            <li class="nav-item">
+												<a class="nav-link" data-toggle="tab" href="#kt_tab_pane_3" id="licencias-nav">
+													<span class="nav-icon"><i class="flaticon2-writing"></i></span>
+													<span class="nav-text">Licencias</span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="tab-content">
+										<div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel" aria-labelledby="kt_tab_pane_1_3">
+											<div class="card-custom">
+												<div class="card-body">
+													<div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable_1"></div>
+												</div>
+											</div>
+										</div>
+
+										<div class="tab-pane" id="kt_tab_pane_2" role="tabpanel" aria-labelledby="kt_tab_pane_1_3">
+											<div class="card-custom">
+												<div class="card-body">
+													<div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable_2"></div>
+												</div>
+											</div>
+										</div>
+
+                                        <div class="tab-pane" id="kt_tab_pane_3" role="tabpanel" aria-labelledby="kt_tab_pane_1_3">
+											<div class="card-custom">
+												<div class="card-body">
+													<div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable_3"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Fin tabla  -->
+
+
+		<div style="text-align: center; margin-bottom: 20px;">
+			<a href="{% url 'crear_ficha' %}"><button type="button" class="btn btn-success">Crear nueva ficha policial</button></a>
+		</div>
+    </div>
+  </div>
+</body>

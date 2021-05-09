@@ -45,14 +45,16 @@ var KTDatatableChildRemoteDataDemo = function() {
 				{
 					field: 'nombre_completo',
 					title: 'Nombre completo',
+					autoHide: false,
 					sortable: 'asc',
 					template: function(row) {
-						return row['nombre_completo'];
+						return '<a href="../ciudadano/?id=' + row['id'] + '">' + row['nombre_completo'] + '</a>';
 					},
 				},
 				{
 					field: 'telefono',
 					title: 'Teléfono',
+					autoHide: false,
 					template: function(row) {
 					    if (row['telefono'] == undefined) {
 					        return 'Sin registro';
@@ -64,13 +66,15 @@ var KTDatatableChildRemoteDataDemo = function() {
 				{
 					field: 'Última detención',
 					title: 'Última detención',
+					autoHide: false,
 					template: function(row) {
 					    return 'En proceso'
 					},
 				},
 				{
 					field: 'Policia',
-					title: 'Policia',
+					title: 'Agente',
+					autoHide: false,
 					template: function(row) {
 					    return 'En proceso'
 					},

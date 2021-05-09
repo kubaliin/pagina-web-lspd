@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/ciudadano/head-ciudadano.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/ciudadano/contenido-ciudadano.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/ciudadano/scripts-ciudadano.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>
