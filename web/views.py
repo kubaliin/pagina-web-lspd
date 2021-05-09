@@ -110,6 +110,8 @@ class CiudadanoDetenciones(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         datos = ciudadanos_filtrado_detenciones(request.GET['id'])
 
+        print(datos)
+
         return JsonResponse(datos, safe=False)
 
 

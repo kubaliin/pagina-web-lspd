@@ -15,6 +15,9 @@ def ciudadanos_filtrado_nombre_completo(filtros=""):
         ciudadanos
     WHERE
         UPPER(ciudadanos.nombre_completo) LIKE TRIM(UPPER('%""" + filtros + """%'))
+    ORDER BY
+        ciudadanos.nombre_completo
+    ASC
     """
 
     cursor = connection.cursor()
@@ -53,6 +56,9 @@ def ciudadanos_filtrado_detenciones(filtros=""):
          ON detenciones.agente = policia.id
     WHERE
         UPPER(ciudadanos.id) LIKE TRIM(UPPER('%""" + filtros + """%'))
+    ORDER BY
+        detenciones.fecha
+    DESC
     """
 
     cursor = connection.cursor()

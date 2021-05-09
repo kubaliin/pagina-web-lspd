@@ -45,7 +45,6 @@ var KTDatatableChildRemoteDataDemo = function() {
 					field: 'cargo',
 					title: 'Cargo',
 					autoHide: false,
-					sortable: 'asc',
 					template: function(row) {
 						return '<a href="../ciudadano/?id=' + row['id'] + '">' + row['descripcion'] + '</a>';
 					},
@@ -53,6 +52,7 @@ var KTDatatableChildRemoteDataDemo = function() {
 				{
 					field: 'fecha',
 					title: 'Fecha',
+					sortable: 'asc',
 					autoHide: false,
 					template: function(row) {
 					    if (row['fecha'] == undefined) {
