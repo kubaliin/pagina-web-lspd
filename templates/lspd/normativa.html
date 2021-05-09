@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/normativa/head-normativa.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/normativa/contenido-normativa.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/normativa/scripts-normativa.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

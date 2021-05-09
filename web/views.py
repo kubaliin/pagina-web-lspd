@@ -111,3 +111,8 @@ class CiudadanoDetenciones(generics.ListAPIView):
         datos = ciudadanos_filtrado_detenciones(request.GET['id'])
 
         return JsonResponse(datos, safe=False)
+
+
+@login_required
+def Normativa(request):
+    return render(request, 'lspd/normativa.html')
