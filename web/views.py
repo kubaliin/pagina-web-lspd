@@ -9,7 +9,7 @@ from rest_framework import generics
 from lspd.settings import URL_HOSTS
 from web.forms import CrearFichaForm, AnadirDetencionForm
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
-    tipos_multas, multas, id_detencion
+    tipos_multas, multas, id_detencion, detencion
 from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas
 
 
@@ -171,6 +171,24 @@ class CiudadanoMultas(generics.ListAPIView):
             datos = multas(request.GET['id_cargos'], True)
 
         return JsonResponse(datos, safe=False)
+
+
+@login_required
+def Detencion(request):
+    datos = detencion(request.GET['id'])
+    obj_p = Policia.objects.get(id=datos[0]['agente'])
+    total_multas = 0
+    count = 0
+
+    policia = '| ' + obj_p.nombre + ' ' + obj_p.apellido + ' | ' + str(obj_p.placa) + ' |'
+
+    for key in datos:
+        total_multas = total_multas + datos[count]['dinero']
+        count = count + 1
+
+    return render(request, 'lspd/detencion.html',
+                  {'fecha': datos[0]['fecha'], 'hora': datos[0]['hora'], 'objetos': datos[0]['objetos'], 'detalles': datos[0]['detalles'],
+                   'datos': datos, 'total_multas': total_multas, 'policia': policia})
 
 
 @login_required

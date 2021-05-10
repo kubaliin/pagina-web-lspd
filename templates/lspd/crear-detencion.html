@@ -5,15 +5,15 @@
 {% if request.user.is_authenticated %}
 
     {% block head %}
-    	{% include 'lspd/ciudadano/detencion/head-crear-detencion.html' %}
+    	{% include 'lspd/ciudadano/crear-detencion/head-crear-detencion.html' %}
 	{% endblock %}
 
     {% block body %}
-    	{% include 'lspd/ciudadano/detencion/contenido-crear-detencion.html' %}
+    	{% include 'lspd/ciudadano/crear-detencion/contenido-crear-detencion.html' %}
 	{% endblock %}
 
     {% block javascript %}
-		{% include 'lspd/ciudadano/detencion/scripts-crear-detencion.html' %}
+		{% include 'lspd/ciudadano/crear-detencion/scripts-crear-detencion.html' %}
 	{% endblock %}
 
 {% endif %}

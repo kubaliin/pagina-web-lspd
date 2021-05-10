@@ -5,6 +5,18 @@ from django.db import connection
 from lspd import settings
 
 
+def convertir_query_diccionario(cursor, query):
+    cursor.execute(query)
+    datos = cursor.fetchall()
+    datosClaves = [column[0] for column in cursor.description]
+    datosLista = []
+
+    for data in datos:
+        datosLista.append(dict(zip(datosClaves, data)))
+
+    return datosLista
+
+
 def ciudadanos_filtrado_nombre_completo(filtros=""):
     ciudadanosQuery = """
     SELECT
@@ -22,13 +34,7 @@ def ciudadanos_filtrado_nombre_completo(filtros=""):
 
     cursor = connection.cursor()
 
-    cursor.execute(ciudadanosQuery)
-    datos = cursor.fetchall()
-    datosClaves = [column[0] for column in cursor.description]
-    datosLista = []
-
-    for data in datos:
-        datosLista.append(dict(zip(datosClaves, data)))
+    datosLista = convertir_query_diccionario(cursor, ciudadanosQuery)
 
     cursor.close()
 
@@ -38,6 +44,7 @@ def ciudadanos_filtrado_nombre_completo(filtros=""):
 def ciudadanos_filtrado_detenciones(filtros=""):
     ciudadanosQuery = """
     SELECT
+        detenciones.id,
         detenciones.fecha,
         detenciones.hora,
         detenciones.agente,
@@ -63,13 +70,7 @@ def ciudadanos_filtrado_detenciones(filtros=""):
 
     cursor = connection.cursor()
 
-    cursor.execute(ciudadanosQuery)
-    datos = cursor.fetchall()
-    datosClaves = [column[0] for column in cursor.description]
-    datosLista = []
-
-    for data in datos:
-        datosLista.append(dict(zip(datosClaves, data)))
+    datosLista = convertir_query_diccionario(cursor, ciudadanosQuery)
 
     cursor.close()
 
@@ -92,13 +93,7 @@ def tipos_multas():
 
     cursor = connection.cursor()
 
-    cursor.execute(tiposMultasQuery)
-    datos = cursor.fetchall()
-    datosClaves = [column[0] for column in cursor.description]
-    datosLista = []
-
-    for data in datos:
-        datosLista.append(dict(zip(datosClaves, data)))
+    datosLista = convertir_query_diccionario(cursor, tiposMultasQuery)
 
     cursor.close()
 
@@ -125,13 +120,7 @@ def multas(filtros='', filtrarTipoMultas = False, filtrarIdMultas = False):
 
     cursor = connection.cursor()
 
-    cursor.execute(multasQuery)
-    datos = cursor.fetchall()
-    datosClaves = [column[0] for column in cursor.description]
-    datosLista = []
-
-    for data in datos:
-        datosLista.append(dict(zip(datosClaves, data)))
+    datosLista = convertir_query_diccionario(cursor, multasQuery)
 
     cursor.close()
 
@@ -151,13 +140,38 @@ def id_detencion(fecha='', hora=''):
 
     cursor = connection.cursor()
 
-    cursor.execute(idDetencionQuery)
-    datos = cursor.fetchall()
-    datosClaves = [column[0] for column in cursor.description]
-    datosLista = []
+    datosLista = convertir_query_diccionario(cursor, idDetencionQuery)
 
-    for data in datos:
-        datosLista.append(dict(zip(datosClaves, data)))
+    cursor.close()
+
+    return datosLista
+
+def detencion(id_detencion=''):
+    detencion = """
+    SELECT
+        detenciones.id,
+        detenciones.fecha,
+        detenciones.hora,
+        detenciones.objetos,
+        detenciones.detalles,
+        detenciones.agente,
+        multas.descripcion,
+        multas.articulo,
+        multas.tiempo,
+        multas.dinero
+    FROM
+        detenciones
+        INNER JOIN historico_multas
+         ON detenciones.id = historico_multas.id_detenciones
+        INNER JOIN multas
+         ON historico_multas.id_multas = multas.id
+    WHERE
+        UPPER(detenciones.id) LIKE '""" + id_detencion + """'
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, detencion)
 
     cursor.close()
 

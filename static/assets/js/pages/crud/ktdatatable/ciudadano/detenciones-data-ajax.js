@@ -46,7 +46,8 @@ var KTDatatableChildRemoteDataDemo = function() {
 					title: 'Cargo',
 					autoHide: false,
 					template: function(row) {
-						return '<a href="../ciudadano/?id=' + row['id'] + '">' + row['descripcion'] + '</a>';
+					    console.log(row)
+						return '<a href="../ciudadano/detencion/?id=' + row['id'] + '">' + row['descripcion'] + '</a>';
 					},
 				},
 				{
