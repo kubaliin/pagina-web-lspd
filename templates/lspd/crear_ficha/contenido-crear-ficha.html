@@ -57,6 +57,11 @@
                 <input name="apellido" class="form-control" placeholder="Introduce el apellido" required/>
               </div>
               <div class="form-group">
+                <label style="font-size: 16px;"><b>Fecha de nacimiento </b></label>
+                <input type="date" name="fecha_nacimiento" class="form-control" placeholder="Introduce la fecha de nacimiento con el siguiente formato: 2021-05-31"/>
+                <span style="font-size: 16px;" class="form-text text-danger"><b>{{ form.fecha_nacimiento.as_text }}</b></span>
+              </div>
+              <div class="form-group">
                 <label style="font-size: 16px;"><b>Teléfono </b></label>
                 <input type="number" name="telefono" class="form-control" placeholder="Introduce un teléfono de 7 dígitos"/>
                 <span style="font-size: 16px;" class="form-text text-danger"><b>{{ form.telefono.as_text }}</b></span>

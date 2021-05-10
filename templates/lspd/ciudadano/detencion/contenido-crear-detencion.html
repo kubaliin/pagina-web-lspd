@@ -68,23 +68,29 @@
                                 <th>Dinero</th>
                                 <th>Acciones</th>
                               </tr>
-                              <!--tr>
-                                <td>Jill</td>
-                                <td>Smith</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td><i class="flaticon-delete-1 mr-3"></i></td>
-                              </tr-->
                             </table>
                         </div>
                         <button type='button' class="btn btn-success" style="margin-top: 10px; width: 100%;" id="add"> Añadir cargo </button>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.cargos_escondido.0 }}</b></span>
                     </div>
                     <div class="form-group">
                         <label style="font-size: 16px; margin-top: 10px;"><b>Objetos incautados </b><span class="text-danger">*</span></label>
-                        <input name="apellido" class="form-control" placeholder="Introduce el apellido"/>
+                        <textarea name="objetos" class="form-control" placeholder="Introduce los objetos incautados" required></textarea>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.objetos.1 }}</b></span>
                     </div>
+
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Detalles de la detención (Opcional) </b></label>
+                        <textarea name="detalles" class="form-control" placeholder="Introduce los detalles de la detención"></textarea>
+                    </div>
+
+                    <div class="form-group" style="display:none">
+                        <label style="font-size: 16px;"><b>Usado para enviar los datos de los cargos </b></label>
+                        <textarea id="cargos_escondidos" name="cargos_escondido" class="form-control" placeholder="No tienes que introducir nada" required></textarea>
+                    </div>
+
                     <div class="card-body" style="text-align: center;">
-                        <button type="submit" class="btn btn-success"> Crear </button>
+                        <button type="button" id="crear" class="btn btn-success" form="crearDetencion"> Crear </button>
                     </div>
                 </div>
             </form>

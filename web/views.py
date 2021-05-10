@@ -6,10 +6,11 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework import generics
 
-from web.forms import CrearFichaForm
+from lspd.settings import URL_HOSTS
+from web.forms import CrearFichaForm, AnadirDetencionForm
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
-    tipos_multas, multas
-from web.models import Ciudadanos, Policia
+    tipos_multas, multas, id_detencion
+from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas
 
 
 @login_required
@@ -43,6 +44,7 @@ def CrearFicha(request):
             obj_c.nombre = form.cleaned_data['nombre']
             obj_c.apellido = form.cleaned_data['apellido']
             obj_c.nombre_completo = form.cleaned_data['nombre'] + ' ' + form.cleaned_data['apellido']
+            obj_c.fecha_nacimiento = form.cleaned_data['fecha_nacimiento']
             obj_c.telefono = form.cleaned_data['telefono']
             if filepath:
                 obj_c.imagen = newfilename
@@ -118,6 +120,43 @@ class CiudadanoDetenciones(generics.ListAPIView):
 def CrearDetencion(request):
     tiposCargos = tipos_multas()
     cargos = multas()
+
+    form = AnadirDetencionForm(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            fecha_actual = datetime.datetime.now().strftime("%Y-%m-%d")
+            hora_actual = datetime.datetime.now().strftime("%H:%M:%S")
+
+            print(form.cleaned_data['detalles'])
+
+            obj_p = Policia.objects.get(users_id=request.user.id)
+
+            obj_d = Detenciones()
+            obj_d.id_ciudadanos = request.GET['id']
+            obj_d.fecha = fecha_actual
+            obj_d.hora = hora_actual
+            obj_d.objetos = form.cleaned_data['objetos']
+            if not form.cleaned_data['detalles'] == '':
+                obj_d.detalles = form.cleaned_data['detalles']
+            obj_d.agente = obj_p.id
+
+            obj_d.save()
+
+            id = id_detencion(fecha_actual, hora_actual)
+
+            multas_puestas = list(form.cleaned_data['cargos_escondido'].split(","))
+
+            for i in multas_puestas:
+                obj_h = HistoricoMultas()
+                obj_h.id_detenciones = id[0]['id']
+                obj_h.id_multas = i
+                obj_h.save()
+
+            return redirect(URL_HOSTS + '/ciudadano/?id=' + request.GET['id'])
+
+        return render(request, 'lspd/crear-detencion.html',
+                      {'form': form.errors, 'tipos_cargos': tiposCargos, 'cargos': cargos})
 
     return render(request, 'lspd/crear-detencion.html', {'tipos_cargos': tiposCargos, 'cargos': cargos})
 

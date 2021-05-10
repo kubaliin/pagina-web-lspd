@@ -8,7 +8,6 @@ jQuery(document).ready(function() {
     var listado_multas = [];
 
     $("#tipos_cargos").on('change', function() {
-
         fetch('/ciudadano/multas/?id_cargos=' + $( "#tipos_cargos" ).val() + '&filtrar_id=False', {
             headers: {'csrftoken': '{{ csrf_token }}'},
             method: "GET",
@@ -64,5 +63,26 @@ jQuery(document).ready(function() {
 
             count = count + 1;
         });
+    });
+
+    $("#crear").on('click', function() {
+        var text = $('#cargos_escondidos')
+        var listado_length = listado_multas.length
+        var count = 1;
+        //text.val('[');
+
+        for (var key in listado_multas) {
+            for (var key2 in listado_multas[key]) {
+                if (count < listado_length) {
+                    text.val(text.val() + listado_multas[key][key2]['id'] + ',');
+                } else {
+                    text.val(text.val() + listado_multas[key][key2]['id']);
+                }
+                count = count + 1;
+            }
+        }
+
+        //text.val(text.val() + ']');
+        $( "#crearDetencion" ).submit();
     });
 });

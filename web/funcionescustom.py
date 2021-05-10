@@ -57,8 +57,8 @@ def ciudadanos_filtrado_detenciones(filtros=""):
     WHERE
         UPPER(ciudadanos.id) LIKE TRIM(UPPER('%""" + filtros + """%'))
     ORDER BY
-        detenciones.fecha
-    DESC
+        detenciones.fecha DESC,
+        detenciones.hora DESC
     """
 
     cursor = connection.cursor()
@@ -137,3 +137,28 @@ def multas(filtros='', filtrarTipoMultas = False, filtrarIdMultas = False):
 
     return datosLista
 
+
+def id_detencion(fecha='', hora=''):
+    idDetencionQuery = """
+    SELECT
+        detenciones.id
+    FROM
+        detenciones
+    WHERE
+        UPPER(detenciones.fecha) LIKE TRIM(UPPER('%""" + fecha + """%')) AND
+        UPPER(detenciones.hora) LIKE TRIM(UPPER('%""" + hora + """%'))
+    """
+
+    cursor = connection.cursor()
+
+    cursor.execute(idDetencionQuery)
+    datos = cursor.fetchall()
+    datosClaves = [column[0] for column in cursor.description]
+    datosLista = []
+
+    for data in datos:
+        datosLista.append(dict(zip(datosClaves, data)))
+
+    cursor.close()
+
+    return datosLista

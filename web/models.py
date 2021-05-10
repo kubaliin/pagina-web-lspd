@@ -30,3 +30,27 @@ class Ciudadanos(models.Model):
     class Meta:
         managed = False
         db_table = 'ciudadanos'
+
+
+class Detenciones(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_ciudadanos = models.IntegerField()
+    fecha = models.DateField()
+    hora = models.TimeField()
+    objetos = models.CharField(max_length=250)
+    detalles = models.CharField(max_length=500, null=True)
+    agente = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'detenciones'
+
+
+class HistoricoMultas(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_detenciones = models.IntegerField()
+    id_multas = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'historico_multas'

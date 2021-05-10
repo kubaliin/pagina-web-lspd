@@ -155,7 +155,7 @@
 
 			<a href="{% url 'crear_ficha' %}"><button type="button" class="btn btn-success">Añadir denuncia</button></a>
 			<a href="{% url 'crear_ficha' %}"><button type="button" class="btn btn-success">Añadir licencia</button></a>
-			<a href="{% url 'crear_detencion' %}"><button type="button" class="btn btn-warning">Añadir detención</button></a>
+			<a href="{% url 'crear_detencion'%}?id={{id}}"><button type="button" class="btn btn-warning">Añadir detención</button></a>
 			<a href="{% url 'crear_ficha' %}"><button type="button" class="btn btn-warning">Añadir orden de alejamiento</button></a>
 			<a href="{% url 'crear_ficha' %}"><button type="button" class="btn btn-danger">Añadir orden de busca y captura</button></a>
 		</div>
