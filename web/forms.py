@@ -4,7 +4,7 @@ from django import forms
 class CrearFichaForm(forms.Form):
     nombre = forms.CharField(label='Nombre', max_length=50)
     apellido = forms.CharField(label='Apellido', max_length=50)
-    fecha_nacimiento = forms.DateField(label='Fecha_nacimiento')
+    fecha_nacimiento = forms.DateField(label='Fecha_nacimiento', required=False)
     telefono = forms.IntegerField(label='Telefono', required=False)
 
     def clean(self):
