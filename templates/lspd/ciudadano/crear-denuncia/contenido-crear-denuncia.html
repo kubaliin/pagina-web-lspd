@@ -1,0 +1,155 @@
+{% load static %}
+
+<body style="background-color: #4F6EDA;">
+      <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+          <div class="custom-menu">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Menu</span>
+            </button>
+          </div>
+        <ul class="list-unstyled components mb-5" style="position: fixed; max-width: 250px;">
+            <li>
+              <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
+            </li>
+            <li>
+              <a href="{% url 'crear_ficha' %}"><span class="flaticon-add-circular-button mr-3"></span> Crear ficha</a>
+            </li>
+            <li class="active">
+                <a href="{% url 'buscar_ficha' %}"><span class="fa fa-user mr-3"></span> Buscar ficha</a>
+            </li>
+            <li>
+              <a href="#"><span class="fa fa-briefcase mr-3"></span> Empresas</a>
+            </li>
+            <li>
+              <a href="#"><span class="fa fa-search mr-3"></span> Investigación</a>
+            </li>
+            <li>
+                <a href="{% url 'multas_condenas' %}"><span class="fa fa-money mr-3"></span> Multas y condenas</a>
+            </li>
+            <li>
+              <a href="{% url 'normativa' %}"><span class="flaticon2-checking mr-3"></span> Normativas</a>
+            </li>
+            <li>
+              <a href="#"><span class="fa fa-exclamation-triangle mr-3"></span> Procedimientos y protocolos</a>
+            </li>
+            <li>
+              <a href="#"><span class="fa fa-share mr-3"></span> Reinserción</a>
+            </li>
+            <li>
+              <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content" class="container">
+            <form method="POST" id="crearDenuncia">
+                {% csrf_token %}
+                <div class="card-body" style="margin-top: 50px;">
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Denunciado </b><span class="text-danger">*</span></label>
+                        <input name="denunciado" class="form-control" placeholder="Introduce el nombre de la persona o personas denunciadas."/>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.denunciado.0 }}</b></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Testigos </b></label>
+                        <input name="testigos" class="form-control" placeholder="Introduce el nombre de los testigos en caso de haberlos."/>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Lugar de los hechos </b></label>
+                        <input name="lugar" class="form-control" placeholder="Introduce el lugar donde a sucedido el hecho."/>
+                    </div>
+
+                    <div class="form-group" >
+                        <table style="width: 100%">
+                            <tr>
+                                <td>
+                                    <label style="font-size: 16px; display: inline"><b>Fecha </b><span class="text-danger">*</span></label>
+                                </td>
+                                <td>
+                                    <label style="font-size: 16px;"><b>Hora </b><span class="text-danger">*</span></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input name="fecha" type="date" class="form-control" placeholder="Introduce la fecha" required/>
+                                    <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.fecha.0 }}</b></span>
+                                </td>
+                                <td>
+                                    <input name="hora" type="time" class="form-control" placeholder="Introduce la hora" required/>
+                                    <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.hora.0 }}</b></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Denuncia </b><span class="text-danger">*</span></label>
+                        <textarea name="denuncia" class="form-control" placeholder="Introduce los hechos que denuncia." required></textarea>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.denuncia.0 }}</b></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Pruebas aportadas (Opcional) </b></label>
+                        <textarea name="pruebas" class="form-control" placeholder="Introduce las pruebas aportadas: Grabación de seguridad, grabadora, móvil, arma, etc..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Adjuntar imágenes </b></label>
+                        <input id="url" name="url" class="form-control" placeholder="Introduce la url de la imagen, asegurate que la url acabe en formato imagen .jpg .png etc..."/>
+                    </div>
+
+                    <div class="form-group" style="display: inline;">
+                        <div>
+                            <table id="tabla_url" style="width:100%; text-align: center; margin-top: 10px; display: none">
+                                <tbody style="max-width: 100%">
+                                  <tr>
+                                    <th>URL</th>
+                                    <th>Validación</th>
+                                    <th>Acciones</th>
+                                  </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type='button' class="btn btn-success" style="margin-top: 10px; width: 100%;" id="add"> Añadir imagen </button>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.cargos_escondido.0 }}</b></span>
+                    </div>
+
+                    <div class="form-group" style="display:inline">
+                        <label style="font-size: 16px;"><b>Usado para enviar los datos de las urls </b></label>
+                        <textarea id="imagenes_id" name="imagenes_id" class="form-control" placeholder="No tienes que introducir nada"></textarea>
+                    </div>
+
+                    <div class="card-body" style="text-align: center;">
+                        <button type="button" id="crear" class="btn btn-success" form="crearDenuncia"> Crear denuncia </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+
+      <!-- Modal-->
+      <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Datos guardados</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <i aria-hidden="true" class="ki ki-close"></i>
+                      </button>
+                  </div>
+                  <div class="modal-body" style="font-size: 16px;">
+                      Ficha creada correctamente.
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Crear otra ficha</button>
+                      <button type="button" class="btn btn-primary font-weight-bold" ><a href="{% url 'buscar_ficha' %}" style="color:white;">Salir</a></button>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </body>

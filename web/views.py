@@ -7,10 +7,10 @@ from django.shortcuts import render, redirect
 from rest_framework import generics
 
 from lspd.settings import URL_HOSTS
-from web.forms import CrearFichaForm, AnadirDetencionForm
+from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
     tipos_multas, multas, id_detencion, detencion
-from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas
+from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas, Denuncias, Imagenes
 
 
 @login_required
@@ -128,8 +128,6 @@ def CrearDetencion(request):
             fecha_actual = datetime.datetime.now().strftime("%Y-%m-%d")
             hora_actual = datetime.datetime.now().strftime("%H:%M:%S")
 
-            print(form.cleaned_data['detalles'])
-
             obj_p = Policia.objects.get(users_id=request.user.id)
 
             obj_d = Detenciones()
@@ -189,6 +187,51 @@ def Detencion(request):
     return render(request, 'lspd/detencion.html',
                   {'fecha': datos[0]['fecha'], 'hora': datos[0]['hora'], 'objetos': datos[0]['objetos'],
                    'detalles': datos[0]['detalles'], 'datos': datos, 'total_multas': total_multas, 'policia': policia})
+
+
+def CrearDenuncia(request):
+    form = AnadirDenunciaForm(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            obj_p = Policia.objects.get(users_id=request.user.id)
+
+            obj_d = Denuncias()
+            obj_d.ciudadano_id = request.GET['id']
+            obj_d.denunciado = form.cleaned_data['denunciado']
+            if not form.cleaned_data['testigos'] == '':
+                obj_d.testigos = form.cleaned_data['testigos']
+            if not form.cleaned_data['lugar'] == '':
+                obj_d.testigos = form.cleaned_data['lugar']
+            obj_d.fecha = form.cleaned_data['fecha']
+            obj_d.hora = form.cleaned_data['hora']
+            obj_d.denuncia = form.cleaned_data['denuncia']
+            if not form.cleaned_data['pruebas'] == '':
+                obj_d.pruebas = form.cleaned_data['pruebas']
+            if not form.cleaned_data['imagenes_id'] == '':
+                new_file_name = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+                obj_d.imagenes_id = new_file_name
+                obj_d.agente = obj_p.id
+
+                obj_d.save()
+
+                obj_i = Imagenes()
+                obj_i.url = form.cleaned_data['imagenes_id']
+                obj_i.imagenes_id = new_file_name
+
+                obj_i.save()
+
+                return redirect(URL_HOSTS + '/ciudadano/?id=' + request.GET['id'])
+            else:
+                obj_d.agente = obj_p.id
+
+                obj_d.save()
+
+                return redirect(URL_HOSTS + '/ciudadano/?id=' + request.GET['id'])
+
+        return render(request, 'lspd/crear-denuncia.html', {'form': form.errors})
+
+    return render(request, 'lspd/crear-denuncia.html', {})
 
 
 @login_required

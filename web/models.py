@@ -54,3 +54,36 @@ class HistoricoMultas(models.Model):
     class Meta:
         managed = False
         db_table = 'historico_multas'
+
+
+class Denuncias(models.Model):
+    id = models.AutoField(primary_key=True)
+    ciudadano_id = models.IntegerField()
+    denunciado = models.CharField(max_length=50)
+    testigos = models.CharField(max_length=50, null=True)
+    lugar = models.CharField(max_length=50, null=True)
+    fecha = models.DateField()
+    hora = models.TimeField()
+    denuncia = models.CharField(max_length=500)
+    pruebas = models.CharField(max_length=250, null=True)
+    imagenes_id = models.IntegerField()
+    agente = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'denuncias'
+
+
+class Imagenes(models.Model):
+    id = models.AutoField(primary_key=True)
+    url = models.CharField(max_length=500)
+    imagenes_id = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'imagenes'
+
+
+
+
+

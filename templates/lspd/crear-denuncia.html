@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/ciudadano/crear-denuncia/head-crear-denuncia.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/ciudadano/crear-denuncia/contenido-crear-denuncia.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/ciudadano/crear-denuncia/scripts-crear-denuncia.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>
