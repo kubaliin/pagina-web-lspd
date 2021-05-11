@@ -9,7 +9,7 @@ from rest_framework import generics
 from lspd.settings import URL_HOSTS
 from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
-    tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id
+    tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id, denuncias
 from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas, Denuncias, Imagenes
 
 
@@ -202,6 +202,7 @@ def Detencion(request):
                    'detalles': datos[0]['detalles'], 'datos': datos, 'total_multas': total_multas, 'policia': policia})
 
 
+@login_required
 def CrearDenuncia(request):
     form = AnadirDenunciaForm(request.POST)
 
@@ -245,6 +246,16 @@ def CrearDenuncia(request):
         return render(request, 'lspd/crear-denuncia.html', {'form': form.errors})
 
     return render(request, 'lspd/crear-denuncia.html', {})
+
+
+@login_required
+def Denuncia(request):
+    datos_denuncias = denuncias(request.GET['id'])
+    datos_policia = policia(datos_denuncias[0]['agente'])
+    datos_imagenes = imagenes_id(datos_denuncias[0]['imagenes_id'])
+    print(datos_imagenes[0])
+    return render(request, 'lspd/denuncia.html', {'datos_denuncias': datos_denuncias, 'datos_policia': datos_policia,
+                                                  'datos_imagenes': datos_imagenes})
 
 
 @login_required

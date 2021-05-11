@@ -1,0 +1,89 @@
+{% load static %}
+
+<body style="background-color: #4F6EDA;">
+  <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+    </div>
+        <ul class="list-unstyled components mb-5" style="position: fixed; max-width: 250px;">
+      <li>
+        <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
+      </li>
+      <li>
+        <a href="{% url 'crear_ficha' %}"><span class="flaticon-add-circular-button mr-3"></span> Crear ficha</a>
+      </li>
+      <li class="active">
+          <a href="{% url 'buscar_ficha' %}"><span class="fa fa-user mr-3"></span> Buscar ficha</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-briefcase mr-3"></span> Empresas</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-search mr-3"></span> Investigación</a>
+      </li>
+      <li>
+        <a href="{% url 'multas_condenas' %}"><span class="fa fa-money mr-3"></span> Multas y condenas</a>
+      </li>
+      <li>
+        <a href="{% url 'normativa' %}"><span class="flaticon2-checking mr-3"></span> Normativas</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-exclamation-triangle mr-3"></span> Procedimientos y protocolos</a>
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-share mr-3"></span> Reinserción</a>
+      </li>
+      <li>
+        <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
+      </li>
+    </ul>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="container">
+		<div class="card-body" style="margin-top: 50px; margin-right: 15%; margin-left: 15%;">
+			<div class="form-group" style="text-align: center;">
+                <span class="font-weight-boldest" style="font-size: 250%; width: auto; height: 50px;"><u>DENUNCIA Nº {{ datos_denuncias.0.id }}</u></span>
+                <div class="form-group" style="text-align: left; width: 100%; heigth: 100%;">
+                    <span style="font-size: 18px;">{{ datos_denuncias.0.fecha }} a las {{ datos_denuncias.0.hora }}<br></span>
+                    <span style="font-size: 18px;">Toma la denuncia el agente <b>{{ datos_policia.0.nombre }} {{ datos_policia.0.apellido }}</b> | {{ datos_policia.0.placa }} |</span>
+                    <hr style="border: 2px solid;">
+                    <span style="font-size: 18px;"><b>Lugar de los hechos:</b>
+                        {% if datos_denuncias.0.lugar %}
+                        {{ datos_denuncias.0.lugar }}<br></span>
+                        {% else %}
+                        Desconocido.<br>
+                        {% endif %}
+                    <span style="font-size: 18px;"><b>Testigos:</b>
+                        {% if datos_denuncias.0.testigos %}
+                        {{ datos_denuncias.0.testigos }}<br></span>
+                        {% else %}
+                        Sin testigos.<br>
+                        {% endif %}
+                    <span style="font-size: 18px;"><b>Denuncia:</b><br></span>
+                    <span>{{ datos_denuncias.0.denuncia }}<br></span>
+                    <span style="font-size: 18px;"><b>Pruebas:</b><br>
+                        {% if datos_denuncias.0.pruebas %}
+                        {{ datos_denuncias.0.pruebas }}<br></span>
+                        {% else %}
+                        El denunciante no aporta pruebas.<br>
+                        {% endif %}
+                    <hr style="border: 2px solid;">
+                    <span style="font-size: 18px;"><b>Imagenes:</b><br>
+                        {% if datos_imagenes.0.url %}
+                            {% for key in datos_imagenes %}
+                                <img src="{{ key.url }}" class="center" style="margin-top: 5px; max-width: 650px; max-height: 1200px"><br>
+                            {% endfor %}
+                        {% else %}
+                        Sin imagenes que adjuntar.<br>
+                        {% endif %}
+                </div>
+			</div>
+		</div>
+    </div>
+  </div>
+</body>

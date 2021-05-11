@@ -239,7 +239,7 @@ def imagenes_id(imagenes_id=''):
     FROM
         imagenes
     WHERE
-        UPPER(imagenes.imagenes_id) LIKE '""" + str(imagenes_id)+ """'
+        UPPER(imagenes.imagenes_id) LIKE '""" + str(imagenes_id) + """'
     """
 
     cursor = connection.cursor()
@@ -251,7 +251,36 @@ def imagenes_id(imagenes_id=''):
     return datosLista
 
 
+def denuncias(filtros=""):
+    denunciasQuery = """
+    SELECT
+        denuncias.id,
+        denuncias.denunciado,
+        denuncias.testigos,
+        denuncias.lugar,
+        denuncias.fecha,
+        denuncias.hora,
+        denuncias.denuncia,
+        denuncias.pruebas,
+        denuncias.imagenes_id,
+        denuncias.estado,
+        denuncias.agente
+    FROM
+        denuncias
+    WHERE
+        UPPER(denuncias.id) LIKE TRIM(UPPER('""" + filtros + """'))
+    ORDER BY
+        denuncias.fecha DESC,
+        denuncias.hora DESC
+    """
 
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, denunciasQuery)
+
+    cursor.close()
+
+    return datosLista
 
 
 

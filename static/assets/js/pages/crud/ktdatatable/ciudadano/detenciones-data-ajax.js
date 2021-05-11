@@ -230,7 +230,6 @@ var KTDatatableChildDenuncias = function() {
 					title: 'Nº denuncia',
 					autoHide: false,
 					template: function(row) {
-					    console.log(row)
 						return '<a href="../ciudadano/denuncia/?id=' + row['id'] + '">' + row['id'] + '</a>';
 					},
 				},
