@@ -9,8 +9,7 @@ jQuery(document).ready(function() {
 
     $("#denuncias-nav").on('click', function() {
         if (first_time) {
-            kt = $('#kt_datatable_2').KTDatatable();
-            kt.reload()
+            KTDatatableChildDenuncias.init();
             first_time = false;
         }
     });
