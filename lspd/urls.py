@@ -20,7 +20,7 @@ from django.urls import path, include
 
 from lspd import settings
 from web.views import Index, BuscarFicha, CrearFicha, CiudadanosDatos, ZonasPatrullaje, Ciudadano, CiudadanoDetenciones, \
-    Normativa, CrearDetencion, CiudadanoMultas, Detencion, MultasCondenas, CrearDenuncia
+    Normativa, CrearDetencion, CiudadanoMultas, Detencion, MultasCondenas, CrearDenuncia, CiudadanoDenuncias
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +32,7 @@ urlpatterns = [
     path('zonas-patrullaje/', ZonasPatrullaje, name='zonas_patrullaje'),
     path('ciudadano/', Ciudadano, name='ciudadano'),
     path('ciudadano/detenciones/', login_required(CiudadanoDetenciones.as_view()), name='ciudadano_detenciones'),
+    path('ciudadano/denuncias/', login_required(CiudadanoDenuncias.as_view()), name='denuncias'),
     path('ciudadano/crear-detencion/', CrearDetencion, name='crear_detencion'),
     path('ciudadano/multas/', login_required(CiudadanoMultas.as_view()), name='ciudadano_multas'),
     path('ciudadano/detencion/', Detencion, name='detencion'),

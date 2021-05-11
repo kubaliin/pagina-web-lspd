@@ -77,6 +77,38 @@ def ciudadanos_filtrado_detenciones(filtros=""):
     return datosLista
 
 
+def ciudadanos_filtrado_denuncias(filtros=""):
+    ciudadanosQuery = """
+    SELECT
+        denuncias.id,
+        denuncias.denunciado,
+        denuncias.testigos,
+        denuncias.lugar,
+        denuncias.fecha,
+        denuncias.hora,
+        denuncias.denuncia,
+        denuncias.pruebas,
+        denuncias.imagenes_id,
+        denuncias.estado,
+        denuncias.agente
+    FROM
+        denuncias
+    WHERE
+        UPPER(denuncias.ciudadano_id) LIKE TRIM(UPPER('""" + filtros + """'))
+    ORDER BY
+        denuncias.fecha DESC,
+        denuncias.hora DESC
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, ciudadanosQuery)
+
+    cursor.close()
+
+    return datosLista
+
+
 def _delete_file(path):
     if os.path.isfile(settings.MEDIA_ROOT + path):
         os.remove(os.path.join(settings.MEDIA_ROOT, path))
@@ -148,7 +180,7 @@ def id_detencion(fecha='', hora=''):
     return datosLista
 
 def detencion(id_detencion=''):
-    detencion = """
+    detencionQuery = """
     SELECT
         detenciones.id,
         detenciones.fecha,
@@ -172,8 +204,57 @@ def detencion(id_detencion=''):
 
     cursor = connection.cursor()
 
-    datosLista = convertir_query_diccionario(cursor, detencion)
+    datosLista = convertir_query_diccionario(cursor, detencionQuery)
 
     cursor.close()
 
     return datosLista
+
+
+def policia(id=''):
+    policiaQuery = """
+    SELECT
+        policia.nombre,
+        policia.apellido,
+        policia.placa
+    FROM
+        policia
+    WHERE
+        UPPER(policia.id) LIKE '""" + str(id) + """'
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, policiaQuery)
+
+    cursor.close()
+
+    return datosLista
+
+
+def imagenes_id(imagenes_id=''):
+    policiaQuery = """
+    SELECT
+        imagenes.url
+    FROM
+        imagenes
+    WHERE
+        UPPER(imagenes.imagenes_id) LIKE '""" + str(imagenes_id)+ """'
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, policiaQuery)
+
+    cursor.close()
+
+    return datosLista
+
+
+
+
+
+
+
+
+

@@ -9,7 +9,7 @@ from rest_framework import generics
 from lspd.settings import URL_HOSTS
 from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
-    tipos_multas, multas, id_detencion, detencion
+    tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id
 from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas, Denuncias, Imagenes
 
 
@@ -112,6 +112,19 @@ def Ciudadano(request):
 class CiudadanoDetenciones(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         datos = ciudadanos_filtrado_detenciones(request.GET['id'])
+
+        return JsonResponse(datos, safe=False)
+
+
+class CiudadanoDenuncias(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        count = 0
+        datos = ciudadanos_filtrado_denuncias(request.GET['id'])
+        policia_info = policia(datos[count]['agente'])
+
+        for key in datos:
+            datos[count]['agente'] = policia_info[0]['nombre'] + ' ' + policia_info[0]['apellido']
+            count = count + 1
 
         return JsonResponse(datos, safe=False)
 
