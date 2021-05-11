@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/multas_condenas/head-multas-condenas.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/multas_condenas/contenido-multas-condenas.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/multas_condenas/scripts-multas-condenas.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

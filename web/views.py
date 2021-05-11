@@ -187,10 +187,18 @@ def Detencion(request):
         count = count + 1
 
     return render(request, 'lspd/detencion.html',
-                  {'fecha': datos[0]['fecha'], 'hora': datos[0]['hora'], 'objetos': datos[0]['objetos'], 'detalles': datos[0]['detalles'],
-                   'datos': datos, 'total_multas': total_multas, 'policia': policia})
+                  {'fecha': datos[0]['fecha'], 'hora': datos[0]['hora'], 'objetos': datos[0]['objetos'],
+                   'detalles': datos[0]['detalles'], 'datos': datos, 'total_multas': total_multas, 'policia': policia})
 
 
 @login_required
 def Normativa(request):
     return render(request, 'lspd/normativa.html')
+
+
+@login_required
+def MultasCondenas(request):
+    tiposCargos = tipos_multas()
+    cargos = multas()
+
+    return render(request, 'lspd/multas-condenas.html', {'tiposCargos': tiposCargos, 'cargos': cargos})

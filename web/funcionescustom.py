@@ -104,6 +104,7 @@ def multas(filtros='', filtrarTipoMultas = False, filtrarIdMultas = False):
     multasQuery = """
     SELECT
         multas.id,
+        multas.tipo_multas_id,
         multas.descripcion,
         multas.articulo,
         multas.tiempo,
