@@ -7,35 +7,6 @@ jQuery(document).ready(function() {
     var count = 0;
     var listado_url = [];
 
-    $("#tipos_cargos").on('change', function() {
-        fetch('/ciudadano/multas/?id_cargos=' + $( "#tipos_cargos" ).val() + '&filtrar_id=False', {
-            headers: {'csrftoken': '{{ csrf_token }}'},
-            method: "GET",
-        })
-        .then(json)
-        .then(function(response) {
-            $("#cargos").empty();
-
-            var id = '';
-            var descripcion = '';
-            var articulo = '';
-            var dinero = '';
-            var tiempo = '';
-
-            for (var key in response) {
-                id = response[key]['id']
-                descripcion = response[key]['descripcion']
-                articulo = response[key]['articulo']
-                dinero = response[key]['dinero']
-                tiempo = response[key]['tiempo']
-
-                var o = new Option("", id);
-                $(o).html(descripcion + ' | ' + articulo + ' | ' + dinero + ' | ' + tiempo);
-                $("#cargos").append(o);
-            }
-        });
-    });
-
     $("#add").on('click', function() {
         var id_tr = "tr_" + count;
         var id_borrar = "borrar_" + count

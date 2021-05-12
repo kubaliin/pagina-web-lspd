@@ -7,10 +7,11 @@ from django.shortcuts import render, redirect
 from rest_framework import generics
 
 from lspd.settings import URL_HOSTS
-from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm
+from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm, AnadirLicenciaForm
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
-    tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id, denuncias
-from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas, Denuncias, Imagenes
+    tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id, denuncias, \
+    tipos_licencias, licencias
+from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas, Denuncias, Imagenes, Licencias
 
 
 @login_required
@@ -129,6 +130,19 @@ class CiudadanoDenuncias(generics.ListAPIView):
         return JsonResponse(datos, safe=False)
 
 
+class CiudadanoLicencias(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        count = 0
+        datos = licencias(request.GET['id'])
+        policia_info = policia(datos[count]['agente'])
+
+        for key in datos:
+            datos[count]['agente'] = policia_info[0]['nombre'] + ' ' + policia_info[0]['apellido']
+            count = count + 1
+
+        return JsonResponse(datos, safe=False)
+
+
 @login_required
 def CrearDetencion(request):
     tiposCargos = tipos_multas()
@@ -225,6 +239,7 @@ def CrearDenuncia(request):
             if not form.cleaned_data['imagenes_id'] == '':
                 new_file_name = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
                 obj_d.imagenes_id = new_file_name
+                obj_d.estado = 0
                 obj_d.agente = obj_p.id
 
                 obj_d.save()
@@ -237,6 +252,7 @@ def CrearDenuncia(request):
 
                 return redirect(URL_HOSTS + '/ciudadano/?id=' + request.GET['id'])
             else:
+                obj_d.estado = 0
                 obj_d.agente = obj_p.id
 
                 obj_d.save()
@@ -253,9 +269,55 @@ def Denuncia(request):
     datos_denuncias = denuncias(request.GET['id'])
     datos_policia = policia(datos_denuncias[0]['agente'])
     datos_imagenes = imagenes_id(datos_denuncias[0]['imagenes_id'])
-    print(datos_imagenes[0])
+
     return render(request, 'lspd/denuncia.html', {'datos_denuncias': datos_denuncias, 'datos_policia': datos_policia,
                                                   'datos_imagenes': datos_imagenes})
+
+
+@login_required
+def CrearLicencia(request):
+    form = AnadirLicenciaForm(request.POST)
+    licencias = tipos_licencias()
+
+    if request.method == 'POST':
+        if form.is_valid():
+            obj_p = Policia.objects.get(users_id=request.user.id)
+            obj_l = Licencias()
+
+            obj_l.ciudadano_id = request.GET['id']
+            obj_l.tipos_licencias_id = form.cleaned_data['licencias']
+            obj_l.fecha = form.cleaned_data['fecha']
+            obj_l.hora = form.cleaned_data['hora']
+            if form.cleaned_data['psicotecnico']:
+                obj_l.psicotecnico = 0
+            else:
+                obj_l.psicotecnico = 1
+
+            if form.cleaned_data['confirmacion']:
+                obj_l.confirmacion = 0
+            else:
+                obj_l.confirmacion = 1
+
+            obj_l.utilizacion = form.cleaned_data['utilizacion']
+            obj_l.comentarios = form.cleaned_data['comentarios']
+            obj_l.estado = 0
+            obj_l.agente = obj_p.id
+
+            obj_l.save()
+
+            return redirect(URL_HOSTS + '/ciudadano/?id=' + request.GET['id'])
+
+        return render(request, 'lspd/crear-licencia.html', {'form': form.errors, 'licencias': licencias})
+
+    return render(request, 'lspd/crear-licencia.html', {'licencias': licencias})
+
+
+@login_required
+def Licencia(request):
+    datos_licencias = licencias("", request.GET['id'])
+    datos_policia = policia(datos_licencias[0]['agente'])
+
+    return render(request, 'lspd/licencia.html', {'datos_licencias': datos_licencias, 'datos_policia': datos_policia})
 
 
 @login_required

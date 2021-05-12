@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/ciudadano/crear-licencia/head-crear-licencia.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/ciudadano/crear-licencia/contenido-crear-licencia.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/ciudadano/crear-licencia/scripts-crear-licencia.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

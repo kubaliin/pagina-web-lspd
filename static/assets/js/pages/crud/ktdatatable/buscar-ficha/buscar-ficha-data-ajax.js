@@ -64,11 +64,15 @@ var KTDatatableChildRemoteDataDemo = function() {
 					},
 				},
 				{
-					field: 'Última detención',
-					title: 'Última detención',
+					field: 'fecha_de_nacimiento',
+					title: 'Fecha de nacimiento',
 					autoHide: false,
 					template: function(row) {
-					    return 'En proceso'
+					    if (row['fecha_nacimiento'] == undefined) {
+					        return 'Sin registro';
+					    } else {
+					        return row['fecha_nacimiento'];
+					    }
 					},
 				},
 				{
@@ -76,7 +80,7 @@ var KTDatatableChildRemoteDataDemo = function() {
 					title: 'Agente',
 					autoHide: false,
 					template: function(row) {
-					    return 'En proceso'
+					    return row['nombre'] + ' ' + row['apellido']
 					},
 				},
 				],

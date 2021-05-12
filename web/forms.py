@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from web.models import Denuncias
+from web.models import Denuncias, Licencias
 
 
 class CrearFichaForm(forms.Form):
@@ -65,4 +65,37 @@ class AnadirDenunciaForm(ModelForm):
                 "required": "Tienes que añadir una descripción/hechos de la denuncia",
             }
         }
+
+
+class AnadirLicenciaForm(ModelForm):
+    tipos_licencias = (
+        ('1', 'Conducir'),
+        ('2', 'Armas'),
+    )
+
+    licencias = forms.ChoiceField(choices=tipos_licencias)
+    psicotecnico = forms.BooleanField(required=False)
+    confirmacion = forms.BooleanField(required=False)
+    comentarios = forms.CharField(widget=forms.Textarea, required=False)
+
+    class Meta:
+        model = Licencias
+
+        fields = ['fecha', 'hora', 'licencias', 'utilizacion']
+        error_messages = {
+            'fecha': {
+                "required": "Tienes que seleccionar una fecha",
+            },
+            'hora': {
+                "required": "Tienes que seleccionar una hora",
+            },
+            'licencias': {
+                "required": "Tienes que seleccionar alguna licencia válida",
+            },
+            'utilizacion': {
+                "required": "Tienes que añadir un motivo/utilizacion de la licencia",
+            },
+        }
+
+
 

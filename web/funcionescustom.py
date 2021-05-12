@@ -22,9 +22,15 @@ def ciudadanos_filtrado_nombre_completo(filtros=""):
     SELECT
         ciudadanos.id,
         ciudadanos.nombre_completo,
-        ciudadanos.telefono
+        ciudadanos.fecha_nacimiento,
+        ciudadanos.telefono,
+        ciudadanos.creado_por,
+        policia.nombre,
+        policia.apellido
     FROM
         ciudadanos
+        INNER JOIN policia
+         ON ciudadanos.creado_por = policia.id
     WHERE
         UPPER(ciudadanos.nombre_completo) LIKE TRIM(UPPER('%""" + filtros + """%'))
     ORDER BY
@@ -132,7 +138,7 @@ def tipos_multas():
     return datosLista
 
 
-def multas(filtros='', filtrarTipoMultas = False, filtrarIdMultas = False):
+def multas(filtros='', filtrarTipoMultas=False, filtrarIdMultas=False):
     multasQuery = """
     SELECT
         multas.id,
@@ -178,6 +184,7 @@ def id_detencion(fecha='', hora=''):
     cursor.close()
 
     return datosLista
+
 
 def detencion(id_detencion=''):
     detencionQuery = """
@@ -283,7 +290,66 @@ def denuncias(filtros=""):
     return datosLista
 
 
+def tipos_licencias():
+    denunciasQuery = """
+    SELECT
+        tipos_licencias.id,
+        tipos_licencias.descripcion
+    FROM
+        tipos_licencias
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, denunciasQuery)
+
+    cursor.close()
+
+    return datosLista
 
 
+def licencias(ciudadano_id="", licencias_id=""):
+    licenciasQuery = """
+    SELECT
+        licencias.id,
+        licencias.ciudadano_id,
+        licencias.tipos_licencias_id ,
+        licencias.fecha,
+        licencias.hora,
+        licencias.psicotecnico,
+        licencias.confirmacion,
+        licencias.utilizacion,
+        licencias.comentarios,
+        licencias.estado,
+        licencias.agente,
+        tipos_licencias.descripcion
+    FROM
+        licencias
+        INNER JOIN tipos_licencias
+         ON licencias.tipos_licencias_id = tipos_licencias.id
+    """
 
+    if not ciudadano_id == "":
+        licenciasQuery = licenciasQuery + """
+        WHERE
+            UPPER(licencias.ciudadano_id) LIKE TRIM(UPPER('""" + ciudadano_id + """'))
+        """
+    else:
+        licenciasQuery = licenciasQuery + """
+        WHERE
+            UPPER(licencias.id) LIKE TRIM(UPPER('""" + licencias_id + """'))
+        """
 
+    licenciasQuery = licenciasQuery + """   
+    ORDER BY
+        licencias.fecha DESC,
+        licencias.hora DESC
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, licenciasQuery)
+
+    cursor.close()
+
+    return datosLista

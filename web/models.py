@@ -67,6 +67,7 @@ class Denuncias(models.Model):
     denuncia = models.CharField(max_length=500)
     pruebas = models.CharField(max_length=250, null=True)
     imagenes_id = models.IntegerField()
+    estado = models.BooleanField()
     agente = models.IntegerField()
 
     class Meta:
@@ -84,6 +85,21 @@ class Imagenes(models.Model):
         db_table = 'imagenes'
 
 
+class Licencias(models.Model):
+    id = models.AutoField(primary_key=True)
+    ciudadano_id = models.IntegerField()
+    tipos_licencias_id = models.IntegerField()
+    fecha = models.DateField()
+    hora = models.TimeField()
+    psicotecnico = models.BooleanField(null=True)
+    confirmacion = models.BooleanField(null=True)
+    utilizacion = models.CharField(max_length=250)
+    comentarios = models.CharField(max_length=500, null=True)
+    estado = models.BooleanField()
+    agente = models.IntegerField()
 
+    class Meta:
+        managed = False
+        db_table = 'licencias'
 
 
