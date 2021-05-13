@@ -50,22 +50,22 @@
                 <div class="card-body" style="margin-top: 50px;">
                     <div class="form-group">
                         <label style="font-size: 16px;"><b>Denunciante </b><span class="text-danger">*</span></label>
-                        <input name="lugar" class="form-control" placeholder="Introduce el nombre del denunciante." required/>
-                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.0.denunciante }}</b></span>
+                        <input name="denunciante" class="form-control" placeholder="Introduce el nombre del denunciante." required/>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.denunciante.0 }}</b></span>
                     </div>
 
                     <div class="form-group">
                         <label style="font-size: 16px;"><b>Motivo para crear la orden de alejamiento </b><span class="text-danger">*</span></label>
                         <textarea name="motivo" class="form-control" placeholder="Motivo por el cual crea una orden de alejamiento." required></textarea>
-                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.0.motivo }}</b></span>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.motivo.0 }}</b></span>
                     </div>
 
                     <div class="form-group">
                         <label style="font-size: 16px;"><b>Resolución de la orden de alejamiento (Si tuviera) </b></label>
                         <textarea name="resolucion" class="form-control" placeholder="Resolución de la orden de alejamiento." ></textarea>
-                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.0.resolucion }}</b></span>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.resolucion.0 }}</b></span>
                     </div>
-
+                    {{ form }}
                     <div class="card-body" style="text-align: center;">
                         <button type="submit" id="crear" class="btn btn-success" form="añadirOrdenAlejamiento"> Crear orden de alejamiento </button>
                     </div>
