@@ -101,7 +101,7 @@
 								<span class="label label-xl font-weight-boldest label-inline label-success" style="font-size: 150%; width: 100%; height: auto; ">
 									<span style="text-align: left">Ordenes de alejamiento activas hacia->  </span>
 										{% for key in orden_alejamiento_activas %}
-											|<a href="{% url 'crear_denuncia'%}?id={{id}}" style="color: white">{{ key.denunciante }}</a>
+											|<a href="#" style="color: white">{{ key.denunciante }}</a>
 										{% endfor %}
 									|
 								</span>

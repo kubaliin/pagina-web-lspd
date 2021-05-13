@@ -352,6 +352,7 @@ def CrearOrdenAlejamiento(request):
             obj_o = OrdenAlejamiento()
 
             obj_o.ciudadano_id = request.GET['id']
+            obj_o.denunciante = form.cleaned_data['denunciante']
             obj_o.motivo = form.cleaned_data['motivo']
             if not form.cleaned_data['resolucion'] == '':
                 obj_o.resolucion = form.cleaned_data['resolucion']
