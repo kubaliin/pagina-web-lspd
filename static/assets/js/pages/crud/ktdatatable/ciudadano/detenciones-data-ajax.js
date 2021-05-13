@@ -294,8 +294,8 @@ var KTDatatableChildLicencias = function() {
 					autoHide: false,
 					template: function(row) {
 					    var status = {
-							0: {'title': 'Abierta', 'style': 'background: #94E98B'},
-							1: {'title': 'Cerrada', 'style': 'background: #F3ADAA'},
+							0: {'title': 'Válida', 'style': 'background: #94E98B'},
+							1: {'title': 'Revocada', 'style': 'background: #F3ADAA'},
 						};
                         return '<span class="label font-weight-bold label-lg label-inline" style="' + status[row['estado']].style + '" >' + status[row['estado']].title + '</span>'
 					},

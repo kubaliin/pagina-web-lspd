@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from web.models import Denuncias, Licencias
+from web.models import Denuncias, Licencias, OrdenAlejamiento, BuscaCaptura
 
 
 class CrearFichaForm(forms.Form):
@@ -98,4 +98,31 @@ class AnadirLicenciaForm(ModelForm):
         }
 
 
+class AnadirOrdenAlejamientoForm(ModelForm):
+    resolucion = forms.CharField(widget=forms.Textarea, required=False)
 
+    class Meta:
+        model = OrdenAlejamiento
+
+        fields = ['motivo', 'denunciante']
+        error_messages = {
+            'motivo': {
+                "required": "Tienes que añadir un motivo para crear la orden de alejamiento",
+            },
+            'denunciante': {
+                "required": "Tienes que añadir un denunciante para crear la orden de alejamiento",
+            },
+        }
+
+
+class AnadirBuscaCapturaForm(ModelForm):
+
+    class Meta:
+        model = BuscaCaptura
+
+        fields = ['motivo']
+        error_messages = {
+            'motivo': {
+                "required": "Tienes que añadir un motivo para crear la orden de busca y captura",
+            },
+        }

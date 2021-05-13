@@ -1,0 +1,97 @@
+{% load static %}
+
+<body style="background-color: #4F6EDA;">
+      <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+          <div class="custom-menu">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Menu</span>
+            </button>
+          </div>
+        <ul class="list-unstyled components mb-5" style="position: fixed; max-width: 250px;">
+            <li>
+              <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
+            </li>
+            <li>
+              <a href="{% url 'crear_ficha' %}"><span class="flaticon-add-circular-button mr-3"></span> Crear ficha</a>
+            </li>
+            <li class="active">
+                <a href="{% url 'buscar_ficha' %}"><span class="fa fa-user mr-3"></span> Buscar ficha</a>
+            </li>
+            <li>
+              <a href="#"><span class="fa fa-briefcase mr-3"></span> Empresas</a>
+            </li>
+            <li>
+              <a href="#"><span class="fa fa-search mr-3"></span> Investigación</a>
+            </li>
+            <li>
+                <a href="{% url 'multas_condenas' %}"><span class="fa fa-money mr-3"></span> Multas y condenas</a>
+            </li>
+            <li>
+              <a href="{% url 'normativa' %}"><span class="flaticon2-checking mr-3"></span> Normativas</a>
+            </li>
+            <li>
+              <a href="#"><span class="fa fa-exclamation-triangle mr-3"></span> Procedimientos y protocolos</a>
+            </li>
+            <li>
+              <a href="#"><span class="fa fa-share mr-3"></span> Reinserción</a>
+            </li>
+            <li>
+              <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content" class="container">
+            <form method="POST" id="añadirOrdenAlejamiento">
+                {% csrf_token %}
+                <div class="card-body" style="margin-top: 50px;">
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Denunciante </b><span class="text-danger">*</span></label>
+                        <input name="lugar" class="form-control" placeholder="Introduce el nombre del denunciante." required/>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.0.denunciante }}</b></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Motivo para crear la orden de alejamiento </b><span class="text-danger">*</span></label>
+                        <textarea name="motivo" class="form-control" placeholder="Motivo por el cual crea una orden de alejamiento." required></textarea>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.0.motivo }}</b></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-size: 16px;"><b>Resolución de la orden de alejamiento (Si tuviera) </b></label>
+                        <textarea name="resolucion" class="form-control" placeholder="Resolución de la orden de alejamiento." ></textarea>
+                        <span style="font-size: 18px;" class="form-text text-danger"><b>{{ form.0.resolucion }}</b></span>
+                    </div>
+
+                    <div class="card-body" style="text-align: center;">
+                        <button type="submit" id="crear" class="btn btn-success" form="añadirOrdenAlejamiento"> Crear orden de alejamiento </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+
+      <!-- Modal-->
+      <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Datos guardados</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <i aria-hidden="true" class="ki ki-close"></i>
+                      </button>
+                  </div>
+                  <div class="modal-body" style="font-size: 16px;">
+                      Ficha creada correctamente.
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Crear otra ficha</button>
+                      <button type="button" class="btn btn-primary font-weight-bold" ><a href="{% url 'buscar_ficha' %}" style="color:white;">Salir</a></button>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </body>

@@ -103,3 +103,27 @@ class Licencias(models.Model):
         db_table = 'licencias'
 
 
+class OrdenAlejamiento(models.Model):
+    id = models.AutoField(primary_key=True)
+    ciudadano_id = models.IntegerField()
+    denunciante = models.CharField(max_length=100)
+    motivo = models.CharField(max_length=500)
+    resolucion = models.CharField(max_length=500, null=True)
+    estado = models.BooleanField()
+    agente = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'orden_alejamiento'
+
+
+class BuscaCaptura(models.Model):
+    id = models.AutoField(primary_key=True)
+    ciudadano_id = models.IntegerField()
+    motivo = models.CharField(max_length=500)
+    estado = models.BooleanField()
+    agente = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'busca_captura'

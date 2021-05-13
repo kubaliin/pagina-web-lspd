@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/ciudadano/orden-alejamiento/head-orden-alejamiento.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/ciudadano/orden-alejamiento/contenido-orden-alejamiento.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/ciudadano/orden-alejamiento/scripts-orden-alejamiento.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

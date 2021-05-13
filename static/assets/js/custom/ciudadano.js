@@ -25,4 +25,8 @@ jQuery(document).ready(function() {
             first_time_licencias = false;
         }
     });
+
+    $("#busca-captura").on('click', function() {
+        $("#buscacaptura").modal('show');
+    });
 });

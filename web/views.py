@@ -7,11 +7,13 @@ from django.shortcuts import render, redirect
 from rest_framework import generics
 
 from lspd.settings import URL_HOSTS
-from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm, AnadirLicenciaForm
+from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm, AnadirLicenciaForm, \
+    AnadirOrdenAlejamientoForm, AnadirBuscaCapturaForm
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
     tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id, denuncias, \
-    tipos_licencias, licencias
-from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas, Denuncias, Imagenes, Licencias
+    tipos_licencias, licencias, orden_alejamiento, busca_captura
+from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas, Denuncias, Imagenes, Licencias, \
+    OrdenAlejamiento, BuscaCaptura
 
 
 @login_required
@@ -82,6 +84,24 @@ def Ciudadano(request):
     fecha_nacimiento = ciudadano.fecha_nacimiento
     telefono = ciudadano.telefono
 
+    orden_alejamiento_activas = orden_alejamiento(id)
+    busca_captura_activas = busca_captura(id)
+    count = 0
+
+    for key in orden_alejamiento_activas:
+        p = policia(orden_alejamiento_activas[count]['agente'])
+        orden_alejamiento_activas[count]['agente'] = p[0]['nombre'] + ' ' + p[0]['apellido']
+        orden_alejamiento_activas[count]['placa'] = p[0]['placa']
+        count = count + 1
+
+    count = 0
+
+    for key in busca_captura_activas:
+        p = policia(busca_captura_activas[count]['agente'])
+        busca_captura_activas[count]['agente'] = p[0]['nombre'] + ' ' + p[0]['apellido']
+        busca_captura_activas[count]['placa'] = p[0]['placa']
+        count = count + 1
+
     if request.method == 'POST':
         filepath = request.FILES['profile_avatar'] if 'profile_avatar' in request.FILES else False
         if filepath:
@@ -107,7 +127,9 @@ def Ciudadano(request):
 
     return render(request, 'lspd/ciudadano.html',
                   {'id': id, 'imagen': imagen, 'nombre_imagen': nombre_imagen, 'nombre_completo': nombre_completo,
-                   'fecha_nacimiento': fecha_nacimiento, 'telefono': telefono})
+                   'fecha_nacimiento': fecha_nacimiento, 'telefono': telefono,
+                   'orden_alejamiento_activas': orden_alejamiento_activas,
+                   'busca_captura_activas': busca_captura_activas})
 
 
 class CiudadanoDetenciones(generics.ListAPIView):
@@ -318,6 +340,54 @@ def Licencia(request):
     datos_policia = policia(datos_licencias[0]['agente'])
 
     return render(request, 'lspd/licencia.html', {'datos_licencias': datos_licencias, 'datos_policia': datos_policia})
+
+
+@login_required
+def CrearOrdenAlejamiento(request):
+    form = AnadirOrdenAlejamientoForm(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            obj_p = Policia.objects.get(users_id=request.user.id)
+            obj_o = OrdenAlejamiento()
+
+            obj_o.ciudadano_id = request.GET['id']
+            obj_o.motivo = form.cleaned_data['motivo']
+            if not form.cleaned_data['resolucion'] == '':
+                obj_o.resolucion = form.cleaned_data['resolucion']
+            obj_o.estado = 0
+            obj_o.agente = obj_p.id
+
+            obj_o.save()
+
+            return redirect(URL_HOSTS + '/ciudadano/?id=' + request.GET['id'])
+
+        return render(request, 'lspd/crear-orden-alejamiento.html', {'form': form.errors})
+
+    return render(request, 'lspd/crear-orden-alejamiento.html', {'licencias': licencias})
+
+
+@login_required
+def CrearBuscaCaptura(request):
+    form = AnadirBuscaCapturaForm(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            obj_p = Policia.objects.get(users_id=request.user.id)
+            obj_b = BuscaCaptura()
+
+            obj_b.ciudadano_id = request.GET['id']
+            obj_b.motivo = form.cleaned_data['motivo']
+            obj_b.estado = 0
+            obj_b.agente = obj_p.id
+
+            obj_b.save()
+
+            return redirect(URL_HOSTS + '/ciudadano/?id=' + request.GET['id'])
+
+        return render(request, 'lspd/crear-busca-captura.html', {'form': form.errors, 'licencias': licencias})
+
+    return render(request, 'lspd/crear-busca-captura.html', {'licencias': licencias})
 
 
 @login_required

@@ -353,3 +353,51 @@ def licencias(ciudadano_id="", licencias_id=""):
     cursor.close()
 
     return datosLista
+
+
+def orden_alejamiento(filtros=''):
+    denunciasQuery = """
+    SELECT
+        orden_alejamiento.denunciante,
+        orden_alejamiento.motivo,
+        orden_alejamiento.resolucion,
+        orden_alejamiento.agente
+    FROM
+        orden_alejamiento
+        INNER JOIN ciudadanos
+         ON orden_alejamiento.ciudadano_id = ciudadanos.id
+    WHERE
+        UPPER(ciudadanos.id) LIKE TRIM(UPPER('""" + filtros + """')) AND
+        orden_alejamiento.estado LIKE '0'
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, denunciasQuery)
+
+    cursor.close()
+
+    return datosLista
+
+
+def busca_captura(filtros=''):
+    denunciasQuery = """
+    SELECT
+        busca_captura.motivo,
+        busca_captura.agente
+    FROM
+        busca_captura
+        INNER JOIN ciudadanos
+         ON busca_captura.ciudadano_id = ciudadanos.id
+    WHERE
+        UPPER(ciudadanos.id) LIKE TRIM(UPPER('""" + filtros + """')) AND
+        busca_captura.estado LIKE '0'
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, denunciasQuery)
+
+    cursor.close()
+
+    return datosLista

@@ -84,9 +84,29 @@
 								<div class="column" style="width: 50%; margin-left: 20px; font-size: 20px;">
 									<b>Nombre: </b>{{ nombre_completo }}<br>
 									<b>Fecha de nacimiento: </b>{{ fecha_nacimiento }}<br>
-									<b>Teléfono: </b>{{ telefono }}
+									<b>Teléfono: </b>{{ telefono }}<br>
 								</div>
 							</div>
+
+							{% if busca_captura_activas %}
+							<div class="form-group" style="margin-top: 10px; text-align: left" id="busca-captura">
+								<span class="label label-xl font-weight-boldest label-inline label-danger" style="font-size: 150%; width: 100%; height: auto; ">
+									<span style="text-align: left">Se encuentra en busca y captura</span>
+								</span>
+							</div>
+							{% endif %}
+
+							{% if orden_alejamiento_activas %}
+							<div class="form-group" style="margin-top: 10px; text-align: left">
+								<span class="label label-xl font-weight-boldest label-inline label-success" style="font-size: 150%; width: 100%; height: auto; ">
+									<span style="text-align: left">Ordenes de alejamiento activas hacia->  </span>
+										{% for key in orden_alejamiento_activas %}
+											|<a href="{% url 'crear_denuncia'%}?id={{id}}" style="color: white">{{ key.denunciante }}</a>
+										{% endfor %}
+									|
+								</span>
+							</div>
+							{% endif %}
 
 							<div class="card card-custom gutter-b" style="margin-top: 10px">
 								<div class="card-header card-header-tabs-line">
@@ -159,9 +179,31 @@
 			<a href="{% url 'crear_denuncia'%}?id={{id}}"><button type="button" class="btn btn-success">Añadir denuncia</button></a>
 			<a href="{% url 'crear_licencia' %}?id={{id}}"><button type="button" class="btn btn-success">Añadir licencia</button></a>
 			<a href="{% url 'crear_detencion'%}?id={{id}}"><button type="button" class="btn btn-warning">Añadir detención</button></a>
-			<a href="{% url 'crear_ficha' %}?id={{id}}"><button type="button" class="btn btn-warning">Añadir orden de alejamiento</button></a>
-			<a href="{% url 'crear_ficha' %}?id={{id}}"><button type="button" class="btn btn-danger">Añadir orden de busca y captura</button></a>
+			<a href="{% url 'crear_orden_alejamiento' %}?id={{id}}"><button type="button" class="btn btn-warning">Añadir orden de alejamiento</button></a>
+			<a href="{% url 'crear_busca_captura' %}?id={{id}}"><button type="button" class="btn btn-danger">Añadir orden de busca y captura</button></a>
 		</div>
     </div>
+  </div>
+
+  <!-- Modal-->
+  <div class="modal fade" id="buscacaptura" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			  <div class="modal-header">
+				  <h5 class="modal-title" id="exampleModalLabel">Motivos de la orden</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <i aria-hidden="true" class="ki ki-close"></i>
+				  </button>
+			  </div>
+			  <div class="modal-body" style="font-size: 16px;">
+				  {{ busca_captura_activas.0.motivo }}<br>
+				  {{ busca_captura_activas.0.agente }} | {{ busca_captura_activas.0.placa }} |
+			  </div>
+			  <div class="modal-footer">
+				  <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar orden</button>
+				  <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Salir</button>
+			  </div>
+		  </div>
+	  </div>
   </div>
 </body>

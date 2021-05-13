@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/ciudadano/busca-captura/head-busca-captura.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/ciudadano/busca-captura/contenido-busca-captura.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/ciudadano/busca-captura/scripts-busca-captura.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>
