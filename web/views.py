@@ -92,6 +92,8 @@ def Ciudadano(request):
         p = policia(orden_alejamiento_activas[count]['agente'])
         orden_alejamiento_activas[count]['agente'] = p[0]['nombre'] + ' ' + p[0]['apellido']
         orden_alejamiento_activas[count]['placa'] = p[0]['placa']
+        if orden_alejamiento_activas[count]['resolucion'] is None:
+            orden_alejamiento_activas[count]['resolucion'] = 'None'
         count = count + 1
 
     count = 0
@@ -402,3 +404,64 @@ def MultasCondenas(request):
     cargos = multas()
 
     return render(request, 'lspd/multas-condenas.html', {'tiposCargos': tiposCargos, 'cargos': cargos})
+
+
+class CiudadanoCancelarBuscaCaptura(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        id = request.GET['id']
+
+        if BuscaCaptura.objects.get(id=id).delete():
+            datos = 'Eliminado correctamente'
+        else:
+            datos = 'No se puede eliminar'
+
+        return JsonResponse(datos, safe=False)
+
+
+class CiudadanoCancelarOrdenAlejamiento(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        id = request.GET['id']
+
+        if OrdenAlejamiento.objects.get(id=id).delete():
+            datos = 'Eliminado correctamente'
+        else:
+            datos = 'No se puede eliminar'
+
+        return JsonResponse(datos, safe=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

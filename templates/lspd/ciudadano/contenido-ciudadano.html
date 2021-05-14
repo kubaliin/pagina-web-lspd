@@ -101,7 +101,7 @@
 								<span class="label label-xl font-weight-boldest label-inline label-success" style="font-size: 150%; width: 100%; height: auto; ">
 									<span style="text-align: left">Ordenes de alejamiento activas hacia->  </span>
 										{% for key in orden_alejamiento_activas %}
-											|<a href="#" style="color: white">{{ key.denunciante }}</a>
+											|<span style="color: white" id="orden-alejamiento-{{ key.id }}">{{ key.denunciante }}</span>
 										{% endfor %}
 									|
 								</span>
@@ -180,12 +180,14 @@
 			<a href="{% url 'crear_licencia' %}?id={{id}}"><button type="button" class="btn btn-success">Añadir licencia</button></a>
 			<a href="{% url 'crear_detencion'%}?id={{id}}"><button type="button" class="btn btn-warning">Añadir detención</button></a>
 			<a href="{% url 'crear_orden_alejamiento' %}?id={{id}}"><button type="button" class="btn btn-warning">Añadir orden de alejamiento</button></a>
+			{% if not busca_captura_activas %}
 			<a href="{% url 'crear_busca_captura' %}?id={{id}}"><button type="button" class="btn btn-danger">Añadir orden de busca y captura</button></a>
+			{% endif %}
 		</div>
     </div>
   </div>
 
-  <!-- Modal-->
+  <!-- Modal para busca y captura-->
   <div class="modal fade" id="buscacaptura" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 		  <div class="modal-content">
@@ -200,10 +202,33 @@
 				  {{ busca_captura_activas.0.agente }} | {{ busca_captura_activas.0.placa }} |
 			  </div>
 			  <div class="modal-footer">
-				  <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar orden</button>
+				  <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal" onclick="eliminar_busca_captura({{busca_captura_activas.0.id}})">Cancelar orden</button>
 				  <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Salir</button>
 			  </div>
 		  </div>
 	  </div>
   </div>
+
+
+  {% for key in orden_alejamiento_activas %}
+  <!-- Modal para orden de alejamiento-->
+  <div class="modal fade" id="ordenalejamiento-{{key.id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			  <div class="modal-header">
+				  <h5 class="modal-title" id="exampleModalLabel1">Motivos de la orden</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <i aria-hidden="true" class="ki ki-close"></i>
+				  </button>
+			  </div>
+			  <div id="ordenalejamiento-body-{{key.id}}" class="modal-body" style="font-size: 16px;">
+			  </div>
+			  <div id="ordenalejamiento-footer" class="modal-footer">
+				  <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal" onclick="eliminar_orden_alejamiento({{key.id}})">Cancelar orden</button>
+				  <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Salir</button>
+			  </div>
+		  </div>
+	  </div>
+  </div>
+  {% endfor %}
 </body>

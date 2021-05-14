@@ -358,6 +358,7 @@ def licencias(ciudadano_id="", licencias_id=""):
 def orden_alejamiento(filtros=''):
     denunciasQuery = """
     SELECT
+        orden_alejamiento.id,
         orden_alejamiento.denunciante,
         orden_alejamiento.motivo,
         orden_alejamiento.resolucion,
@@ -383,6 +384,7 @@ def orden_alejamiento(filtros=''):
 def busca_captura(filtros=''):
     denunciasQuery = """
     SELECT
+        busca_captura.id,
         busca_captura.motivo,
         busca_captura.agente
     FROM
