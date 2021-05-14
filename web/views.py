@@ -430,12 +430,42 @@ class CiudadanoCancelarOrdenAlejamiento(generics.ListAPIView):
         return JsonResponse(datos, safe=False)
 
 
+class CiudadanoCambiarLicencia(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        id = request.GET['id']
+
+        o = Licencias.objects.get(id=id)
+        estado_actual = o.estado
+
+        if estado_actual:
+            o.estado = False
+            o.save()
+            datos = 'Válida'
+        else:
+            o.estado = True
+            o.save()
+            datos = 'Revocada'
+
+        return JsonResponse(datos, safe=False)
 
 
+class CiudadanoCambiarDenuncia(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        id = request.GET['id']
 
+        d = Denuncias.objects.get(id=id)
+        estado_actual = d.estado
 
+        if estado_actual:
+            d.estado = False
+            d.save()
+            datos = 'Abierta'
+        else:
+            d.estado = True
+            d.save()
+            datos = 'Cerrada'
 
-
+        return JsonResponse(datos, safe=False)
 
 
 

@@ -22,7 +22,7 @@ from lspd import settings
 from web.views import Index, BuscarFicha, CrearFicha, CiudadanosDatos, ZonasPatrullaje, Ciudadano, CiudadanoDetenciones, \
     Normativa, CrearDetencion, CiudadanoMultas, Detencion, MultasCondenas, CrearDenuncia, CiudadanoDenuncias, Denuncia, \
     CrearLicencia, CiudadanoLicencias, Licencia, CrearOrdenAlejamiento, CrearBuscaCaptura, \
-    CiudadanoCancelarBuscaCaptura, CiudadanoCancelarOrdenAlejamiento
+    CiudadanoCancelarBuscaCaptura, CiudadanoCancelarOrdenAlejamiento, CiudadanoCambiarLicencia, CiudadanoCambiarDenuncia
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -49,6 +49,8 @@ urlpatterns = [
     path('multas-condenas/', MultasCondenas, name='multas_condenas'),
     path('ciudadano/cancelar-busca-captura/', login_required(CiudadanoCancelarBuscaCaptura.as_view()), name='ciudadano_cancelar_busca_captura'),
     path('ciudadano/cancelar-orden-alejamiento/', login_required(CiudadanoCancelarOrdenAlejamiento.as_view()), name='ciudadano_cancelar_orden_alejamiento'),
+    path('ciudadano/cambiar-licencia/', login_required(CiudadanoCambiarLicencia.as_view()), name='ciudadano_cambiar_licencia'),
+    path('ciudadano/cambiar-denuncia/', login_required(CiudadanoCambiarDenuncia.as_view()), name='ciudadano_cambiar_denuncia'),
 
 ]
 
