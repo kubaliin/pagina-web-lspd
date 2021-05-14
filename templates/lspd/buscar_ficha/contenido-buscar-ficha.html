@@ -12,32 +12,35 @@
         </div>
         <ul class="list-unstyled components mb-5" style="position: fixed; max-width: 250px;">
           <li>
-            <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
+            <a href="{% url 'mi_cuenta' %}"><span class="flaticon-user mr-3"></span> Mi cuenta</a>
           </li>
+          <!--li>
+            <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
+          </li-->
           <li>
               <a href="{% url 'crear_ficha' %}"><span class="flaticon-add-circular-button mr-3"></span> Crear ficha</a>
           </li>
           <li class="active">
               <a href="{% url 'buscar_ficha' %}"><span class="fa fa-user mr-3"></span> Buscar ficha</a>
           </li>
-          <li>
+          <!--li>
             <a href="#"><span class="fa fa-briefcase mr-3"></span> Empresas</a>
-          </li>
-          <li>
+          </li-->
+          <!--li>
             <a href="#"><span class="fa fa-search mr-3"></span> Investigación</a>
-          </li>
+          </li-->
           <li>
             <a href="{% url 'multas_condenas' %}"><span class="fa fa-money mr-3"></span> Multas y condenas</a>
           </li>
           <li>
             <a href="{% url 'normativa' %}"><span class="flaticon2-checking mr-3"></span> Normativas</a>
           </li>
-          <li>
+          <!--li>
             <a href="#"><span class="fa fa-exclamation-triangle mr-3"></span> Procedimientos y protocolos</a>
-          </li>
-          <li>
+          </li-->
+          <!--li>
             <a href="#"><span class="fa fa-share mr-3"></span> Reinserción</a>
-          </li>
+          </li-->
           <li>
             <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
           </li>

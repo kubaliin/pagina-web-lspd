@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -8,7 +9,7 @@ from rest_framework import generics
 
 from lspd.settings import URL_HOSTS
 from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm, AnadirLicenciaForm, \
-    AnadirOrdenAlejamientoForm, AnadirBuscaCapturaForm
+    AnadirOrdenAlejamientoForm, AnadirBuscaCapturaForm, MiCuentaForm
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
     tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id, denuncias, \
     tipos_licencias, licencias, orden_alejamiento, busca_captura
@@ -468,30 +469,39 @@ class CiudadanoCambiarDenuncia(generics.ListAPIView):
         return JsonResponse(datos, safe=False)
 
 
+@login_required
+def MiCuenta(request):
+    form = MiCuentaForm(request.POST)
 
+    owner = request.user
+    p = Policia.objects.get(users_id=request.user.id)
+    nombre = p.nombre
+    apellido = p.apellido
+    telefono = p.telefono
+    placa = p.placa
 
+    if request.method == 'POST':
+        if form.is_valid():
+            if not form.cleaned_data['username'] == owner.username:
+                owner.username = form.cleaned_data['username']
+                owner.save()
+            if not form.cleaned_data['password'] == '':
+                if form.cleaned_data['password'] == form.cleaned_data['password2']:
+                    u = User.objects.get(id=request.user.id)
+                    u.set_password(form.cleaned_data['password'])
+                    u.save()
+            if not form.cleaned_data['nombre'] == nombre:
+                p.nombre = form.cleaned_data['nombre']
+            if not form.cleaned_data['apellido'] == apellido:
+                p.apellido = form.cleaned_data['apellido']
+            if not form.cleaned_data['telefono'] == telefono:
+                p.telefono = form.cleaned_data['telefono']
+            if not form.cleaned_data['placa'] == placa:
+                p.placa = form.cleaned_data['placa']
+            p.save()
 
+        return render(request, 'lspd/buscar-ficha.html', {})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return render(request, 'lspd/mi-cuenta.html',
+                  {'username': owner.username, 'nombre': nombre, 'apellido': apellido, 'telefono': telefono,
+                   'placa': placa})

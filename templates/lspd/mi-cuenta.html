@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/mi_cuenta/head-mi-cuenta.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/mi_cuenta/contenido-mi-cuenta.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/mi_cuenta/scripts-mi-cuenta.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

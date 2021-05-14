@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from web.models import Denuncias, Licencias, OrdenAlejamiento, BuscaCaptura
+from web.models import Denuncias, Licencias, OrdenAlejamiento, BuscaCaptura, Policia
 
 
 class CrearFichaForm(forms.Form):
@@ -124,5 +124,28 @@ class AnadirBuscaCapturaForm(ModelForm):
         error_messages = {
             'motivo': {
                 "required": "Tienes que añadir un motivo para crear la orden de busca y captura",
+            },
+        }
+
+
+class MiCuentaForm(ModelForm):
+    username = forms.CharField(label='username', max_length=50)
+    password = forms.CharField(widget=forms.PasswordInput(), required=False)
+    password2 = forms.CharField(widget=forms.PasswordInput(), required=False)
+    telefono = forms.IntegerField(label='Telefono', required=False)
+
+    class Meta:
+        model = Policia
+
+        fields = ['nombre', 'apellido', 'placa']
+        error_messages = {
+            'nombre': {
+                "required": "Tienes que poner un nombre",
+            },
+            'apellido': {
+                "required": "Tienes que poner un apellido",
+            },
+            'placa': {
+                "required": "Tienes que poner un número de placa",
             },
         }
