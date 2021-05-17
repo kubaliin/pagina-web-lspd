@@ -11,8 +11,8 @@ jQuery(document).ready(function() {
             $('#checkboxes').css({'display': 'block'});
         } else {
             $('#checkboxes').css({'display': 'none'});
-            $('#psicotecnico').prop('checked', false);
-            $('#confirmacion').prop('checked', false);
+            //$('#psicotecnico').prop('checked', false);
+            //$('#confirmacion').prop('checked', false);
         }
     });
 });

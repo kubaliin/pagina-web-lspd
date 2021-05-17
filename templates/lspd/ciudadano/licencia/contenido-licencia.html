@@ -64,7 +64,7 @@
                         Sin psicotécnico.<br>
                         {% endif %}
                     <span style="font-size: 18px;"><b>Confirmación por parte de LSFD:</b>
-                        {% if datos_licencias.0.confirmacion == 1%}
+                        {% if datos_licencias.0.confirmacion == 1 %}
                         Se ha confirmado de la veracidad del psicotécnico.<br></span>
                         {% else %}
                         Sin confirmación.<br>
@@ -83,26 +83,33 @@
         <div style="text-align: center; margin-bottom: 20px;">
 			<button type="button" class="btn btn-success" onclick="cambiar_estado({{datos_licencias.0.id}})">Cambiar estado</button>
 		</div>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+			<a href="javascript:history.back()"><button type="button" class="btn btn-success">Volver</button></a>
+			<button type="button" class="btn btn-danger" id="eliminar">Eliminar licencia</button>
+		</div>
     </div>
   </div>
 
-  <!-- Modal para busca y captura-->
-  <div class="modal fade" id="modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-		  <div class="modal-content">
-			  <div class="modal-header">
-				  <h5 class="modal-title" id="exampleModalLabel">Información:</h5>
-				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					  <i aria-hidden="true" class="ki ki-close"></i>
-				  </button>
-			  </div>
-			    <div class="modal-body" id="modal-body" style="font-size: 16px;">
-			  </div>
-			  <div class="modal-footer">
-				  <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Salir</button>
-			  </div>
-		  </div>
-	  </div>
-  </div>
+      <!-- Modal-->
+      <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <i aria-hidden="true" class="ki ki-close"></i>
+                      </button>
+                  </div>
+                  <div class="modal-body" style="font-size: 16px;">
+                      ¿Estas seguro de que deseas eliminar la licencia?
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-primary font-weight-bold" ><a href="{% url 'ciudadano_eliminar_licencia' %}?id={{datos_licencias.0.id}}" style="color:white;">Eliminar</a></button>
+                      <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                  </div>
+              </div>
+          </div>
+      </div>
 
 </body>

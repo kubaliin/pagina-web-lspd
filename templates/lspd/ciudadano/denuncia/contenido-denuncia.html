@@ -44,6 +44,7 @@
             <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
           </li>
         </ul>
+        </nav>
 
     <!-- Page Content  -->
     <div id="content" class="container">
@@ -89,26 +90,32 @@
                 <button type="button" class="btn btn-success" onclick="cambiar_estado({{datos_denuncias.0.id}})">Cambiar estado</button>
             </div>
 		</div>
-    </div>
 
-      <!-- Modal para busca y captura-->
-      <div class="modal fade" id="modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div style="text-align: center; margin-bottom: 20px;">
+			<a href="javascript:history.back()"><button type="button" class="btn btn-success">Volver</button></a>
+			<button type="button" class="btn btn-danger" id="eliminar">Eliminar denuncia</button>
+		</div>
+    </div>
+  </div>
+
+      <!-- Modal-->
+      <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
           <div class="modal-dialog" role="document">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Información:</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Información</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <i aria-hidden="true" class="ki ki-close"></i>
                       </button>
                   </div>
-                    <div class="modal-body" id="modal-body" style="font-size: 16px;">
+                  <div class="modal-body" style="font-size: 16px;">
+                      ¿Estas seguro de que deseas eliminar la denuncia?
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Salir</button>
+                      <button type="button" class="btn btn-primary font-weight-bold" ><a href="{% url 'ciudadano_eliminar_denuncia' %}?id={{datos_denuncias.0.id}}" style="color:white;">Eliminar</a></button>
+                      <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
                   </div>
               </div>
           </div>
       </div>
-
-  </div>
 </body>

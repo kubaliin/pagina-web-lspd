@@ -12,3 +12,11 @@
     <script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
 
     <script src="{% static 'assets/js/custom/buscar-ficha.js' %}"></script>
+
+    <script type="text/javascript">
+        $(window).ready(function(){
+            $("#eliminar").on('click', function() {
+                $("#staticBackdrop").modal('show');
+            });
+        });
+    </script>

@@ -323,6 +323,10 @@ def CrearLicencia(request):
             else:
                 obj_l.confirmacion = 1
 
+            print(form.cleaned_data)
+            print(form.cleaned_data['psicotecnico'])
+            print(form.cleaned_data['confirmacion'])
+
             obj_l.utilizacion = form.cleaned_data['utilizacion']
             obj_l.comentarios = form.cleaned_data['comentarios']
             obj_l.estado = 0
@@ -505,3 +509,53 @@ def MiCuenta(request):
     return render(request, 'lspd/mi-cuenta.html',
                   {'username': owner.username, 'nombre': nombre, 'apellido': apellido, 'telefono': telefono,
                    'placa': placa})
+
+
+class CiudadanoEliminarDenuncion(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        id = request.GET['id']
+
+        d = Detenciones.objects.get(id=id)
+        h = HistoricoMultas.objects.filter(id_detenciones=d.id)
+
+        id_ciudadano = d.id_ciudadanos
+
+        h.delete()
+        d.delete()
+
+        return redirect(URL_HOSTS + '/ciudadano/?id=' + str(id_ciudadano))
+
+
+class CiudadanoEliminarLicencia(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        id = request.GET['id']
+
+        l = Licencias.objects.get(id=id)
+
+        id_ciudadano = l.ciudadano_id
+
+        l.delete()
+
+        return redirect(URL_HOSTS + '/ciudadano/?id=' + str(id_ciudadano))
+
+
+class CiudadanoEliminarDenuncia(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        id = request.GET['id']
+
+        d = Denuncias.objects.get(id=id)
+        i = Imagenes.objects.filter(imagenes_id=d.imagenes_id)
+
+        id_ciudadano = d.ciudadano_id
+
+        i.delete()
+        d.delete()
+
+        return redirect(URL_HOSTS + '/ciudadano/?id=' + str(id_ciudadano))
+
+
+
+
+
+
+

@@ -106,6 +106,32 @@
                 </div>
 			</div>
 		</div>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+			<a href="javascript:history.back()"><button type="button" class="btn btn-success">Volver</button></a>
+			<button type="button" class="btn btn-danger" id="eliminar">Eliminar informe</button>
+		</div>
     </div>
   </div>
+
+      <!-- Modal-->
+      <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <i aria-hidden="true" class="ki ki-close"></i>
+                      </button>
+                  </div>
+                  <div class="modal-body" style="font-size: 16px;">
+                      ¿Estas seguro de que deseas eliminar el informe?
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-primary font-weight-bold" ><a href="{% url 'ciudadano_eliminar_detencion' %}?id={{datos.0.id}}" style="color:white;">Eliminar</a></button>
+                      <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                  </div>
+              </div>
+          </div>
+      </div>
 </body>

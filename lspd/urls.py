@@ -23,7 +23,7 @@ from web.views import Index, BuscarFicha, CrearFicha, CiudadanosDatos, ZonasPatr
     Normativa, CrearDetencion, CiudadanoMultas, Detencion, MultasCondenas, CrearDenuncia, CiudadanoDenuncias, Denuncia, \
     CrearLicencia, CiudadanoLicencias, Licencia, CrearOrdenAlejamiento, CrearBuscaCaptura, \
     CiudadanoCancelarBuscaCaptura, CiudadanoCancelarOrdenAlejamiento, CiudadanoCambiarLicencia, \
-    CiudadanoCambiarDenuncia, MiCuenta
+    CiudadanoCambiarDenuncia, MiCuenta, CiudadanoEliminarDenuncion, CiudadanoEliminarLicencia, CiudadanoEliminarDenuncia
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -57,6 +57,9 @@ urlpatterns = [
     path('ciudadano/cambiar-denuncia/', login_required(CiudadanoCambiarDenuncia.as_view()),
          name='ciudadano_cambiar_denuncia'),
     path('mi-cuenta/', MiCuenta, name='mi_cuenta'),
+    path('ciudadano/eliminar-detencion/', login_required(CiudadanoEliminarDenuncion.as_view()), name='ciudadano_eliminar_detencion'),
+    path('ciudadano/eliminar-licencia/', login_required(CiudadanoEliminarLicencia.as_view()), name='ciudadano_eliminar_licencia'),
+    path('ciudadano/eliminar-denuncia/', login_required(CiudadanoEliminarDenuncia.as_view()), name='ciudadano_eliminar_denuncia'),
 ]
 
 if settings.DEBUG:
