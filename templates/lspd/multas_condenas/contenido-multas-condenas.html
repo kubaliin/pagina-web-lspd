@@ -2,7 +2,8 @@
 
 <body style="background-color: #4F6EDA;" xmlns="http://www.w3.org/1999/html">
   <div class="wrapper d-flex align-items-stretch">
-        <nav id="sidebar">
+	<div class="sidebar">
+		<nav id="sidebar" style="height: 100%">
             <div class="custom-menu">
                 <button type="button" id="sidebarCollapse" class="btn btn-primary">
           <i class="fa fa-bars"></i>
@@ -44,7 +45,8 @@
             <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
           </li>
         </ul>
-    </nav>
+		</nav>
+	</div>
 
     <!-- Page Content  -->
     <div id="content" class="container">
