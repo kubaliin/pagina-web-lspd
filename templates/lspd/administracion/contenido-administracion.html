@@ -1,0 +1,122 @@
+{% load static %}
+
+<body style="background-color: #4F6EDA;">
+  <div class="wrapper d-flex align-items-stretch">
+		<nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+    </div>
+        <ul class="list-unstyled components mb-5" style="position: fixed; max-width: 250px;">
+          <li>
+            <a href="{% url 'mi_cuenta' %}"><span class="flaticon-user mr-3"></span> Mi cuenta</a>
+          </li>
+          {% if request.user.is_staff %}
+          <li class="active">
+            <a href="{% url 'administracion' %}"><span class="flaticon-network mr-3"></span> Administracion</a>
+          </li>
+          {% endif %}
+          <!--li>
+            <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
+          </li-->
+          <li>
+              <a href="{% url 'crear_ficha' %}"><span class="flaticon-add-circular-button mr-3"></span> Crear ficha</a>
+          </li>
+          <li>
+              <a href="{% url 'buscar_ficha' %}"><span class="fa fa-user mr-3"></span> Buscar ficha</a>
+          </li>
+          <!--li>
+            <a href="#"><span class="fa fa-briefcase mr-3"></span> Empresas</a>
+          </li-->
+          <!--li>
+            <a href="#"><span class="fa fa-search mr-3"></span> Investigación</a>
+          </li-->
+          <li>
+            <a href="{% url 'multas_condenas' %}"><span class="fa fa-money mr-3"></span> Multas y condenas</a>
+          </li>
+          <li>
+            <a href="{% url 'normativa' %}"><span class="flaticon2-checking mr-3"></span> Normativas</a>
+          </li>
+          <!--li>
+            <a href="#"><span class="fa fa-exclamation-triangle mr-3"></span> Procedimientos y protocolos</a>
+          </li-->
+          <!--li>
+            <a href="#"><span class="fa fa-share mr-3"></span> Reinserción</a>
+          </li-->
+          <li>
+            <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
+          </li>
+          <li>
+            <a href="{% url 'logout' %}"><span class="flaticon-close mr-3"></span> Cerrar sesión</a>
+          </li>
+        </ul>
+		</nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="container">
+        <form method="POST" id="administracion">
+            {% csrf_token %}
+            <div class="card-body" style="margin-top: 50px; font-size: 16px;">
+                <div class="form-group" style="text-align: center;">
+                    <table style="width: 100%">
+                        <tr>
+                            <th>Policia</th>
+                            <th>Rango</th>
+                            <th>Última conexión</th>
+                            <th>Activo</th>
+                            <th>Admin</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="form-control" id="policia" name="policia" style="width: 100%;">
+                                {% for dkey in datos %}
+                                    <option value="{{ dkey.id }}">{{ dkey.nombre }} {{ dkey.apellido }}</option>
+                                {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" id="rangos" name="rangos" style="width: 100%;">
+                                {% for rkey in rangos %}
+                                    {% if rkey.id == datos.0.rango %}
+                                    <option value="{{ rkey.id }}" selected>{{ rkey.rango }}</option>
+                                    {% else %}
+                                    <option value="{{ rkey.id }}">{{ rkey.rango }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select>
+                            </td>
+                            <td id="ultima_conexion">
+                                {% if datos.0.last_login == None %}
+                                Sin última conexión.
+                                {% else %}
+                                {{ datos.0.last_login }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if datos.0.is_active == 1 %}
+                                <input type="checkbox" id="activo" name="activo" checked/>
+                                {% else %}
+                                <input type="checkbox" id="activo" name="activo"/>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if datos.0.is_staff == 1 %}
+                                <input type="checkbox" id="admin" name="admin" checked/>
+                                {% else %}
+                                <input type="checkbox" id="admin" name="admin"/>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card-body" style="text-align: center;">
+                    <button type="submit" id="crear" class="btn btn-success" form="administracion"> Guardar cambios </button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</body>

@@ -23,12 +23,14 @@ from web.views import Index, BuscarFicha, CrearFicha, CiudadanosDatos, ZonasPatr
     Normativa, CrearDetencion, CiudadanoMultas, Detencion, MultasCondenas, CrearDenuncia, CiudadanoDenuncias, Denuncia, \
     CrearLicencia, CiudadanoLicencias, Licencia, CrearOrdenAlejamiento, CrearBuscaCaptura, \
     CiudadanoCancelarBuscaCaptura, CiudadanoCancelarOrdenAlejamiento, CiudadanoCambiarLicencia, \
-    CiudadanoCambiarDenuncia, MiCuenta, CiudadanoEliminarDenuncion, CiudadanoEliminarLicencia, CiudadanoEliminarDenuncia
+    CiudadanoCambiarDenuncia, MiCuenta, CiudadanoEliminarDenuncion, CiudadanoEliminarLicencia, \
+    CiudadanoEliminarDenuncia, Administracion
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', Index, name='index'),
+    path('login/', Index, name='index'),
     path('buscar-ficha/', BuscarFicha, name='buscar_ficha'),
     path('buscar-ficha/ciudadanos/', login_required(CiudadanosDatos.as_view()), name='ciudadanos_datos'),
     path('crear-ficha/', CrearFicha, name='crear_ficha'),
@@ -57,9 +59,13 @@ urlpatterns = [
     path('ciudadano/cambiar-denuncia/', login_required(CiudadanoCambiarDenuncia.as_view()),
          name='ciudadano_cambiar_denuncia'),
     path('mi-cuenta/', MiCuenta, name='mi_cuenta'),
-    path('ciudadano/eliminar-detencion/', login_required(CiudadanoEliminarDenuncion.as_view()), name='ciudadano_eliminar_detencion'),
-    path('ciudadano/eliminar-licencia/', login_required(CiudadanoEliminarLicencia.as_view()), name='ciudadano_eliminar_licencia'),
-    path('ciudadano/eliminar-denuncia/', login_required(CiudadanoEliminarDenuncia.as_view()), name='ciudadano_eliminar_denuncia'),
+    path('ciudadano/eliminar-detencion/', login_required(CiudadanoEliminarDenuncion.as_view()),
+         name='ciudadano_eliminar_detencion'),
+    path('ciudadano/eliminar-licencia/', login_required(CiudadanoEliminarLicencia.as_view()),
+         name='ciudadano_eliminar_licencia'),
+    path('ciudadano/eliminar-denuncia/', login_required(CiudadanoEliminarDenuncia.as_view()),
+         name='ciudadano_eliminar_denuncia'),
+    path('administracion/', Administracion, name='administracion'),
 ]
 
 if settings.DEBUG:

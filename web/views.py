@@ -1,18 +1,20 @@
 import datetime
 
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
+from django.forms import formset_factory
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework import generics
 
 from lspd.settings import URL_HOSTS
 from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm, AnadirLicenciaForm, \
-    AnadirOrdenAlejamientoForm, AnadirBuscaCapturaForm, MiCuentaForm
+    AnadirOrdenAlejamientoForm, AnadirBuscaCapturaForm, MiCuentaForm, Administrar
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
     tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id, denuncias, \
-    tipos_licencias, licencias, orden_alejamiento, busca_captura
+    tipos_licencias, licencias, orden_alejamiento, busca_captura, todos_users_policias, todos_rangos
 from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas, Denuncias, Imagenes, Licencias, \
     OrdenAlejamiento, BuscaCaptura
 
@@ -553,6 +555,37 @@ class CiudadanoEliminarDenuncia(generics.ListAPIView):
 
         return redirect(URL_HOSTS + '/ciudadano/?id=' + str(id_ciudadano))
 
+
+@login_required
+def Administracion(request):
+    if request.user.is_staff:
+        form = Administrar(request.POST)
+
+        datos = todos_users_policias()
+        rangos = todos_rangos()
+
+        for key in datos:
+            key['last_login'] = str(key['last_login'])
+
+        if request.method == 'POST':
+            if form.is_valid():
+                p = Policia.objects.get(id=form.cleaned_data['policia'])
+                u = User.objects.get(id=p.users_id)
+
+                if not p.rango == form.cleaned_data['rangos']:
+                    p.rango = form.cleaned_data['rangos']
+                if not u.is_active == form.cleaned_data['activo']:
+                    u.is_active = form.cleaned_data['activo']
+                if not u.is_staff == form.cleaned_data['admin']:
+                    u.is_staff = form.cleaned_data['admin']
+
+                p.save()
+                u.save()
+
+        return render(request, 'lspd/administracion.html',
+                      {'datos': datos, 'rangos': rangos})
+    else:
+        return render(request, 'lspd/buscar-ficha.html')
 
 
 

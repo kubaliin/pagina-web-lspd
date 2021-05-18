@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
+from web.funcionescustom import todos_users_policias, todos_rangos
 from web.models import Denuncias, Licencias, OrdenAlejamiento, BuscaCaptura, Policia
 
 
@@ -149,3 +150,12 @@ class MiCuentaForm(ModelForm):
                 "required": "Tienes que poner un número de placa",
             },
         }
+
+
+class Administrar(forms.Form):
+    policia = forms.CharField()
+    rangos = forms.CharField()
+    activo = forms.BooleanField(required=False)
+    admin = forms.BooleanField(required=False)
+
+

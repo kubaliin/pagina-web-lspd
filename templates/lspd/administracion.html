@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/administracion/head-administracion.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/administracion/contenido-administracion.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/administracion/scripts-administracion.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

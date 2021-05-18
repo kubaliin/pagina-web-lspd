@@ -14,6 +14,11 @@
           <li>
             <a href="{% url 'mi_cuenta' %}"><span class="flaticon-user mr-3"></span> Mi cuenta</a>
           </li>
+		  {% if request.user.is_staff %}
+		  <li>
+			<a href="{% url 'administracion' %}"><span class="flaticon-network mr-3"></span> Administracion</a>
+		  </li>
+		  {% endif %}
           <!--li>
             <a href="#"><span class="flaticon2-group mr-3"></span> Adopciones</a>
           </li-->
@@ -44,6 +49,9 @@
           <li>
             <a href="{% url 'zonas_patrullaje' %}"><span class="fa fa-map mr-3"></span> Zonas de patrullaje</a>
           </li>
+		  <li>
+			<a href="{% url 'logout' %}"><span class="flaticon-close mr-3"></span> Cerrar sesión</a>
+		  </li>
         </ul>
 
 		</nav>

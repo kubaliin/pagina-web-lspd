@@ -403,3 +403,46 @@ def busca_captura(filtros=''):
     cursor.close()
 
     return datosLista
+
+
+def todos_users_policias():
+    query = """
+    SELECT
+        auth_user.id,
+        auth_user.last_login,
+        auth_user.is_staff,
+        auth_user.is_active,
+        policia.nombre,
+        policia.apellido,
+        policia.rango
+    FROM
+        auth_user
+        INNER JOIN policia
+         ON auth_user.id = policia.users_id
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, query)
+
+    cursor.close()
+
+    return datosLista
+
+
+def todos_rangos():
+    query = """
+    SELECT
+        rangos.id,
+        rangos.rango
+    FROM
+        rangos
+    """
+
+    cursor = connection.cursor()
+
+    datosLista = convertir_query_diccionario(cursor, query)
+
+    cursor.close()
+
+    return datosLista

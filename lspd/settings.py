@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['kubala.pythonanywhere.com', '127.0.0.1']
 
 URL_HOSTS = 'http://127.0.0.1:8000'
 
+LOGOUT_REDIRECT_URL = '/login'
 
 # Application definition
 
