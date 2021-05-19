@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+{% if request.user.is_authenticated %}
+
+    {% block head %}
+    	{% include 'lspd/administracion/crear_cuenta/head-crear-cuenta.html' %}
+	{% endblock %}
+
+    {% block body %}
+    	{% include 'lspd/administracion/crear_cuenta/contenido-crear-cuenta.html' %}
+	{% endblock %}
+
+    {% block javascript %}
+		{% include 'lspd/administracion/crear_cuenta/scripts-crear-cuenta.html' %}
+	{% endblock %}
+
+{% endif %}
+</html>

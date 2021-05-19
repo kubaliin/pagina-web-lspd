@@ -159,3 +159,25 @@ class Administrar(forms.Form):
     admin = forms.BooleanField(required=False)
 
 
+class CrearCuenta(ModelForm):
+    username = forms.CharField(label='username', max_length=50)
+
+    class Meta:
+        model = Policia
+
+        fields = ['nombre', 'apellido', 'placa']
+        error_messages = {
+            'nombre': {
+                "required": "Tienes que poner un nombre",
+            },
+            'apellido': {
+                "required": "Tienes que poner un apellido",
+            },
+            'placa': {
+                "required": "Tienes que poner un número de placa",
+            },
+        }
+
+
+
+

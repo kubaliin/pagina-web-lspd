@@ -1,17 +1,15 @@
 import datetime
 
-from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
-from django.forms import formset_factory
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework import generics
 
 from lspd.settings import URL_HOSTS
 from web.forms import CrearFichaForm, AnadirDetencionForm, AnadirDenunciaForm, AnadirLicenciaForm, \
-    AnadirOrdenAlejamientoForm, AnadirBuscaCapturaForm, MiCuentaForm, Administrar
+    AnadirOrdenAlejamientoForm, AnadirBuscaCapturaForm, MiCuentaForm, Administrar, CrearCuenta
 from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_filtrado_detenciones, _delete_file, \
     tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id, denuncias, \
     tipos_licencias, licencias, orden_alejamiento, busca_captura, todos_users_policias, todos_rangos
@@ -489,8 +487,11 @@ def MiCuenta(request):
     if request.method == 'POST':
         if form.is_valid():
             if not form.cleaned_data['username'] == owner.username:
-                owner.username = form.cleaned_data['username']
-                owner.save()
+                try:
+                    User.objects.get(username=form.cleaned_data['username'])
+                except User.DoesNotExist:
+                    owner.username = form.cleaned_data['username']
+                    owner.save()
             if not form.cleaned_data['password'] == '':
                 if form.cleaned_data['password'] == form.cleaned_data['password2']:
                     u = User.objects.get(id=request.user.id)
@@ -588,7 +589,28 @@ def Administracion(request):
         return render(request, 'lspd/buscar-ficha.html')
 
 
+@login_required
+def AdministracionCrearCuenta(request):
+    if request.user.is_staff:
+        form = CrearCuenta(request.POST)
 
+        if request.method == 'POST':
+            if form.is_valid():
+                try:
+                    User.objects.get(username=form.cleaned_data['username'])
+                except User.DoesNotExist:
+                    user = User(username=form.cleaned_data['username'])
+                    user.set_password(str(form.cleaned_data['placa']))
+                    user.save()
 
+                    p = Policia()
+                    p.users_id = user.id
+                    p.nombre = form.cleaned_data['nombre']
+                    p.apellido = form.cleaned_data['apellido']
+                    p.placa = form.cleaned_data['placa']
+                    p.rango = 11
+                    p.save()
 
-
+        return render(request, 'lspd/crear-cuenta.html', {})
+    else:
+        return render(request, 'lspd/buscar-ficha.html')
