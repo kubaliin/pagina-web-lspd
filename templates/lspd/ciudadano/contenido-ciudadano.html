@@ -69,21 +69,21 @@
 							<div class="row col-xl-12">
 								<div class="column">
 								{% if imagen %}
-								<div class="image-input image-input-empty image-input-outline" id="kt_image_1" style="background-image: url(../media/{{ nombre_imagen }})">
+								<div class="image-input image-input-empty image-input-outline" id="kt_image_1" style="background-image: url({{ url_imagen }})">
 								{% else %}
 								<div class="image-input image-input-empty image-input-outline" id="kt_image_1" style="background-image: url(../media/ciudadano/blank.jpg)">
 								{% endif %}
 									<div class="image-input-wrapper" style="width: 350px; height: 190px;"></div>
 									<form method="POST" id="ciudadano" enctype="multipart/form-data">
 									{% csrf_token %}
-										<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Cambiar imagen">
+										<label id="cambiarImagen" class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Cambiar imagen">
 											<i class="fa fa-pen icon-sm text-muted"></i>
-											<input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"/>
+											<!--input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"/-->
 										</label>
-										<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="save" data-toggle="tooltip" title="Cambiar">
+										<!--span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="save" data-toggle="tooltip" title="Cambiar">
 											<i class="flaticon-refresh" id="save" style="margin-left: 16px"></i>
 											<input type="submit" form="ciudadano"/>
-										</span>
+										</span-->
 										<!--label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="save" data-toggle="tooltip" title="Cambiar">
 											<i class="flaticon-refresh"></i>
 											<input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"/>
@@ -242,4 +242,27 @@
 	  </div>
   </div>
   {% endfor %}
+
+  <!-- Modal-->
+  <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			  <div class="modal-header">
+				  <h5 class="modal-title" id="exampleModalLabel2">Añadir imagen</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <i aria-hidden="true" class="ki ki-close"></i>
+				  </button>
+			  </div>
+			  <div class="modal-body" style="font-size: 16px;">
+				  URL:
+				  <input name="urlImagen" id="urlImagen" class="form-control" placeholder="Introduce la url" required/>
+			  </div>
+			  <div class="modal-footer">
+				  {{key.id}}
+				  <button type="button" class="btn btn-light-primary font-weight-bold" onclick="guardar_imagen({{id}})" >Guardar</button>
+				  <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+			  </div>
+		  </div>
+	  </div>
+  </div>
 </body>

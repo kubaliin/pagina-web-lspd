@@ -4,6 +4,10 @@ jQuery(document).ready(function() {
     var first_time_denuncias = true;
     var first_time_licencias = true;
 
+    $("#cambiarImagen").on('click', function() {
+        $("#staticBackdrop").modal('show');
+    });
+
     $("#save").on('click', function() {
         $("#ciudadano").submit();
     });
@@ -67,6 +71,20 @@ function eliminar_orden_alejamiento(id){
     .then(json)
     .then(function(response) {
         location.reload(true);
+    });
+}
+
+function guardar_imagen(id){
+    var url = $("#urlImagen").val()
+    console.log(url)
+    fetch('/ciudadano/imagen-ciudadano/?url=' + url + '&id=' + id, {
+        headers: {'csrftoken': '{{ csrf_token }}'},
+        method: "GET",
+    })
+    .then(json)
+    .then(function(response) {
+        $("#staticBackdrop").modal('toggle');
+        $("#kt_image_1").css({'background-image': 'url(' + url + ')'});
     });
 }
 
