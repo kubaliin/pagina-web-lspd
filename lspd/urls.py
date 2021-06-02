@@ -24,7 +24,7 @@ from web.views import Index, BuscarFicha, CrearFicha, CiudadanosDatos, ZonasPatr
     CrearLicencia, CiudadanoLicencias, Licencia, CrearOrdenAlejamiento, CrearBuscaCaptura, \
     CiudadanoCancelarBuscaCaptura, CiudadanoCancelarOrdenAlejamiento, CiudadanoCambiarLicencia, \
     CiudadanoCambiarDenuncia, MiCuenta, CiudadanoEliminarDenuncion, CiudadanoEliminarLicencia, \
-    CiudadanoEliminarDenuncia, Administracion, AdministracionCrearCuenta
+    CiudadanoEliminarDenuncia, Administracion, AdministracionCrearCuenta, CiudadanoImagen
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -67,6 +67,8 @@ urlpatterns = [
          name='ciudadano_eliminar_denuncia'),
     path('administracion/', Administracion, name='administracion'),
     path('administracion/crear_cuenta/', AdministracionCrearCuenta, name='crear_cuenta'),
+    path('ciudadano/imagen-ciudadano/', login_required(CiudadanoImagen.as_view()),
+         name='ciudadano_imagen'),
 ]
 
 if settings.DEBUG:
