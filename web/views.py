@@ -14,7 +14,7 @@ from web.funcionescustom import ciudadanos_filtrado_nombre_completo, ciudadanos_
     tipos_multas, multas, id_detencion, detencion, ciudadanos_filtrado_denuncias, policia, imagenes_id, denuncias, \
     tipos_licencias, licencias, orden_alejamiento, busca_captura, todos_users_policias, todos_rangos
 from web.models import Ciudadanos, Policia, Detenciones, HistoricoMultas, Denuncias, Imagenes, Licencias, \
-    OrdenAlejamiento, BuscaCaptura, ImagenesCiudadanos
+    OrdenAlejamiento, BuscaCaptura
 
 
 @login_required
@@ -32,6 +32,14 @@ def CrearFicha(request):
     form = CrearFichaForm(request.POST)
 
     if request.method == 'POST':
+        filepath = request.FILES['myfile'] if 'myfile' in request.FILES else False
+        newfilename = ''
+
+        if filepath:
+            myfile = request.FILES['myfile']
+            fs = FileSystemStorage()
+            newfilename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + '_' + myfile.name
+            fs.save(newfilename, myfile)
 
         if form.is_valid():
             obj_p = Policia.objects.get(users_id=request.user.id)
@@ -42,6 +50,8 @@ def CrearFicha(request):
             obj_c.nombre_completo = form.cleaned_data['nombre'] + ' ' + form.cleaned_data['apellido']
             obj_c.fecha_nacimiento = form.cleaned_data['fecha_nacimiento']
             obj_c.telefono = form.cleaned_data['telefono']
+            if filepath:
+                obj_c.imagen = newfilename
             obj_c.creado_por = obj_p.id
             obj_c.save()
 
@@ -95,19 +105,31 @@ def Ciudadano(request):
         busca_captura_activas[count]['placa'] = p[0]['placa']
         count = count + 1
 
-    if ciudadano.imagenes_id is None:
+    if request.method == 'POST':
+        filepath = request.FILES['profile_avatar'] if 'profile_avatar' in request.FILES else False
+        if filepath:
+            myfile = request.FILES['profile_avatar']
+            fs = FileSystemStorage()
+            newfilename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + '_' + myfile.name
+            fs.save(newfilename, myfile)
+
+            if ciudadano.imagen is not None:
+                _delete_file(ciudadano.imagen)
+
+            ciudadano.imagen = newfilename
+            ciudadano.save()
+
+    if ciudadano.imagen is None:
         imagen = False
     else:
         imagen = True
-        nombre_imagen = ciudadano.imagenes_id
-        i = ImagenesCiudadanos.objects.get(imagenes_id=nombre_imagen)
-        url_imagen = i.url
+        nombre_imagen = ciudadano.imagen
 
     if fecha_nacimiento is None: fecha_nacimiento = 'Sin registro'
     if telefono is None: telefono = 'Sin registro'
 
     return render(request, 'lspd/ciudadano.html',
-                  {'id': id, 'imagen': imagen, 'url_imagen': url_imagen, 'nombre_completo': nombre_completo,
+                  {'id': id, 'imagen': imagen, 'nombre_imagen': nombre_imagen, 'nombre_completo': nombre_completo,
                    'fecha_nacimiento': fecha_nacimiento, 'telefono': telefono,
                    'orden_alejamiento_activas': orden_alejamiento_activas,
                    'busca_captura_activas': busca_captura_activas})
@@ -535,33 +557,6 @@ class CiudadanoEliminarDenuncia(generics.ListAPIView):
         return redirect(URL_HOSTS + '/ciudadano/?id=' + str(id_ciudadano))
 
 
-class CiudadanoImagen(generics.ListAPIView):
-    def get(self, request, *args, **kwargs):
-        id = request.GET['id']
-        url = request.GET['url']
-
-        c = Ciudadanos.objects.get(id=id)
-        i = ImagenesCiudadanos()
-
-        filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-
-        if c.imagenes_id is None:
-            c.imagenes_id = filename
-        else:
-            i_old = ImagenesCiudadanos.objects.get(imagenes_id=c.imagenes_id)
-            i_old.delete()
-
-            c.imagenes_id = filename
-
-        i.url = url
-        i.imagenes_id = filename
-
-        c.save()
-        i.save()
-
-        return JsonResponse('Datos correctos', safe=False)
-
-
 @login_required
 def Administracion(request):
     if request.user.is_staff:
@@ -587,7 +582,9 @@ def Administracion(request):
 
                 p.save()
                 u.save()
-        return render(request, 'lspd/administracion.html', {'datos': datos, 'rangos': rangos})
+
+        return render(request, 'lspd/administracion.html',
+                      {'datos': datos, 'rangos': rangos})
     else:
         return render(request, 'lspd/buscar-ficha.html')
 

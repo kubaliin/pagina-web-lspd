@@ -24,7 +24,7 @@ class Ciudadanos(models.Model):
     nombre_completo = models.CharField(max_length=100)
     fecha_nacimiento = models.DateField(null=True)
     telefono = models.IntegerField(null=True)
-    imagenes_id = models.CharField(max_length=50, null=True)
+    imagen = models.CharField(max_length=250, null=True)
     creado_por = models.IntegerField()
 
     class Meta:
@@ -83,16 +83,6 @@ class Imagenes(models.Model):
     class Meta:
         managed = False
         db_table = 'imagenes'
-
-
-class ImagenesCiudadanos(models.Model):
-    id = models.AutoField(primary_key=True)
-    url = models.CharField(max_length=500)
-    imagenes_id = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'imagenes_ciudadanos'
 
 
 class Licencias(models.Model):
