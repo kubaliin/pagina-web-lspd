@@ -95,6 +95,8 @@ def Ciudadano(request):
         busca_captura_activas[count]['placa'] = p[0]['placa']
         count = count + 1
 
+    url_imagen = ""
+
     if ciudadano.imagenes_id is None:
         imagen = False
     else:
