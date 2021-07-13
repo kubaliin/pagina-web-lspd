@@ -577,7 +577,7 @@ def Administracion(request):
 
         if request.method == 'POST':
             if form.is_valid():
-                p = Policia.objects.get(id=form.cleaned_data['policia'])
+                p = Policia.objects.get(users_id=form.cleaned_data['policia'])
                 u = User.objects.get(id=p.users_id)
 
                 if not p.rango == form.cleaned_data['rangos']:
@@ -613,7 +613,7 @@ def AdministracionCrearCuenta(request):
                     p.nombre = form.cleaned_data['nombre']
                     p.apellido = form.cleaned_data['apellido']
                     p.placa = form.cleaned_data['placa']
-                    p.rango = 11
+                    p.rango = 10
                     p.save()
 
         return render(request, 'lspd/crear-cuenta.html', {})
